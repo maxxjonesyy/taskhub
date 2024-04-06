@@ -1,25 +1,9 @@
-require("dotenv").config({ path: __dirname + "../env" });
-const { MongoClient, ServerApiVersion } = require("mongodb");
+require("dotenv").config({ path: __dirname + "/../.env" });
+const mongoose = require("mongoose");
 
 const url = process.env.MONGO;
 
-const client = new MongoClient(url, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+mongoose.connect(url);
+const db = mongoose.connection;
 
-async function run() {
-  try {
-    await client.connect();
-    await client.db("admin").command({ ping: 1 });
-    console.log("Successfully connected to MongoDB.");
-  } catch (error) {
-    console.error(`Error connecting to MongoDB: ${error}`);
-  }
-}
-run();
-
-module.exports = { run };
+module.exports = db;
