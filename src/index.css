@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {}
-
-@layer components {}
+.swal2-title {
+    font-size: 14px !important;
+}
 
 @layer utilities {}
