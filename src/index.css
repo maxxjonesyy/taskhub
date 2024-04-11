@@ -2,8 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/poppins-v15-latin-regular.eot');
+}
+
 .swal2-title {
     font-size: 14px !important;
 }
 
-@layer utilities {}
+@layer base {
+    :root {
+        --accent-red: #CB384A;
+        --accent-grey: #777777;
+        --text-grey: #D8D8D8;
+        --background-light: #222222;
+        --background-dark: #1B1B1B;
+    }
+
+    html {
+        @apply text-text-grey;
+    }
+
+    input, button, a {
+        @apply focus:outline-offset-2 focus:outline-text-grey;
+    }
+}
+
+@layer components {
+    
+ }
+
+@layer utilities {
+ 
+}
