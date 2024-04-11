@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import { Login } from "./views";
+import { Auth } from "./views/";
 
 function App() {
   return (
-    <Routes>
-      <Route path='/login' element={<Login />} />
-    </Routes>
+    <div className='min-h-screen bg-background-light'>
+      <Routes>
+        <Route path='/auth' element={<Auth />} />
+      </Routes>
+    </div>
   );
 }
 
