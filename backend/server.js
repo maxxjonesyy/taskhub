@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const db = require("./database/db");
+const { escapeInputs } = require("./middleware/middleware");
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -11,10 +12,10 @@ app.use(express.json());
 app.use(bodyParser.json({ limit: "1kb" }));
 app.use(bodyParser.urlencoded({ extended: true, limit: "1kb" }));
 
+app.use(escapeInputs);
 app.use(cors());
 
-app.use("/", require("./routes/login"));
-app.use("/", require("./routes/register"));
+app.use("/", require("./routes/authRoutes"));
 
 db.once("open", (error) => {
   if (error) {
