@@ -19,9 +19,16 @@ const sendFormData = async ({
     });
 
     if (response.status === 200) {
-      const { message } = response.data;
+      const { message, data } = response.data;
 
-      renderAlert("success", message);
+      if (message) {
+        renderAlert("success", message);
+      }
+
+      if (data.email && data.token) {
+        localStorage.setItem("user", JSON.stringify(data));
+      }
+
       setEmail("");
       setPassword("");
     }
