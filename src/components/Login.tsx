@@ -43,7 +43,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
         />
 
         <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
-          Register
+          Login
         </button>
 
         <button className='bg-transparent border border-accent-grey rounded-md p-3 font-medium shadow-lg transition-transform hover:scale-105'>
