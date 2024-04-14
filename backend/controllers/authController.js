@@ -3,7 +3,7 @@ const validator = require("validator");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
-const Login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -49,7 +49,7 @@ const Login = async (req, res) => {
   }
 };
 
-const Register = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -95,4 +95,8 @@ const Register = async (req, res) => {
   }
 };
 
-module.exports = { Login, Register };
+const verifyToken = async (req, res) => {
+  res.status(200).json({ message: "Token verified" });
+};
+
+module.exports = { login, register, verifyToken };
