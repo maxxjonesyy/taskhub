@@ -25,9 +25,8 @@ const sendFormData = async ({
         renderAlert("success", message);
       }
 
-      if (data.email && data.token) {
-        localStorage.removeItem("user");
-        localStorage.setItem("user", JSON.stringify(data));
+      if (data) {
+        localStorage.setItem("token", data);
       }
 
       setEmail("");
