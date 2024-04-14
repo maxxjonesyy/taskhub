@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Login, Register } from "../components/index";
 
 function Auth() {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
 
   return (
     <div className='h-screen flex items-center justify-between'>
