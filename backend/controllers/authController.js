@@ -22,11 +22,26 @@ const Login = async (req, res) => {
       return res.status(401).json({ error: "Incorrect email or password" });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const refreshToken = jwt.sign(
+      { email: user.email },
+      process.env.JWT_REFRESH_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    const tokenPayload = {
+      email: user.email,
+      refreshToken,
+    };
+
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
+      expiresIn: "15m",
+    });
 
     res.status(200).json({
       message: "Login successful",
-      data: { email: user.email, token },
+      data: token,
     });
   } catch (error) {
     console.error("Error logging in:", error);
