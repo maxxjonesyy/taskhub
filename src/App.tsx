@@ -1,21 +1,34 @@
-import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
+
+import { Auth, Dashboard } from "./views";
+import { ProtectedRoute } from "./components";
+import { AuthContext } from "./context/AuthContext";
 import { verifyToken } from "./utils";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    async function checkAuth() {
+    async function verifyAuth() {
       setIsAuthenticated(await verifyToken());
     }
-    checkAuth();
+    verifyAuth();
   }, []);
+
+  useEffect(() => {
+    isAuthenticated ? navigate("/") : navigate("/auth");
+  }, [isAuthenticated, navigate]);
 
   return (
     <div className='min-h-screen bg-background-light'>
       <Routes>
         <Route path='/auth' element={<Auth />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path='/' element={<Dashboard />} />
+        </Route>
       </Routes>
     </div>
   );
