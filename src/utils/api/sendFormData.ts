@@ -9,6 +9,7 @@ const sendFormData = async ({
   password,
   setEmail,
   setPassword,
+  login,
 }: SendFormArgs): Promise<void> => {
   event.preventDefault();
 
@@ -26,7 +27,8 @@ const sendFormData = async ({
       }
 
       if (data) {
-        localStorage.setItem("token", data);
+        const token = data;
+        login(token);
       }
 
       setEmail("");
