@@ -5,5 +5,5 @@ export type SendFormArgs = {
   password: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-  login: (token: string) => void;
+  login?: (token: string) => void;
 };

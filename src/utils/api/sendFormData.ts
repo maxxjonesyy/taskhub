@@ -28,7 +28,7 @@ const sendFormData = async ({
 
       if (data) {
         const token = data;
-        login(token);
+        if (login) login(token);
       }
 
       setEmail("");
