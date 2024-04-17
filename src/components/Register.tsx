@@ -5,7 +5,7 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await sendFormData({
       endpoint: "/api/register",
@@ -20,7 +20,7 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
   return (
     <div className='w-full'>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleRegister}
         className='w-[350px] flex flex-col justify-center mx-auto gap-6'>
         <div>
           <h2 className='text-3xl font-bold mb-2'>Register</h2>

@@ -8,7 +8,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [password, setPassword] = useState<string>("");
   const { login } = useContext(AuthContext);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await sendFormData({
       endpoint: "/api/login",
@@ -24,7 +24,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
   return (
     <div className='w-full'>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleLogin}
         className='w-[350px] flex flex-col justify-center mx-auto gap-6'>
         <div>
           <h2 className='text-3xl font-bold mb-2'>Login</h2>
