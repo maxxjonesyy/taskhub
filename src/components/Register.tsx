@@ -8,7 +8,7 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
   async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await sendFormData({
-      endpoint: "/api/register",
+      endpoint: "/auth/register",
       event,
       email,
       password,

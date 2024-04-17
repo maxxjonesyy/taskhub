@@ -11,7 +11,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await sendFormData({
-      endpoint: "/api/login",
+      endpoint: "/auth/login",
       event,
       email,
       password,

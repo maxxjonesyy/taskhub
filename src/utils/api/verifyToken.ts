@@ -8,7 +8,7 @@ async function verifyToken(): Promise<boolean> {
       return false;
     }
 
-    const response = await axios.get("/api/verify-token", {
+    const response = await axios.get("/auth/verify-token", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

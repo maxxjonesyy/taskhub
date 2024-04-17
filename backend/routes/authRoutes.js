@@ -7,8 +7,8 @@ const {
 } = require("../controllers/authController");
 const { verifyAccessToken } = require("../middleware/middleware");
 
-router.post("/api/login", login);
-router.post("/api/register", register);
-router.get("/api/verify-token", verifyAccessToken, verifyToken);
+router.post("/auth/login", login);
+router.post("/auth/register", register);
+router.get("/auth/verify-token", verifyAccessToken, verifyToken);
 
 module.exports = router;
