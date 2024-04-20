@@ -56,7 +56,10 @@ function ForgotPassword() {
         setNewPassword("");
       } else renderAlert("error", response.data.message);
     } catch (error) {
-      renderAlert("error", "An error occurred while resetting your password");
+      renderAlert(
+        "error",
+        "An error occurred while resetting your password, try something stronger"
+      );
     }
   };
 
