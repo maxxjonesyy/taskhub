@@ -10,6 +10,22 @@ const escapeInputs = (req, res, next) => {
   next();
 };
 
+const passwordCheck = (req, res, next) => {
+  const { password } = req.body;
+
+  if (!validator.isStrongPassword(password)) {
+    return res.status(400).json({
+      error: `Password must contain: 
+            At least 8 characters
+            At least 1 uppercase letter
+            At least 1 lowercase letter
+            At least 1 number`,
+    });
+  }
+
+  next();
+};
+
 const verifyAccessToken = (req, res, next) => {
   const { authorization } = req.headers;
   const token = authorization.split(" ")[1];
@@ -50,4 +66,4 @@ const checkRefreshToken = (req, res, next) => {
   );
 };
 
-module.exports = { escapeInputs, verifyAccessToken };
+module.exports = { escapeInputs, verifyAccessToken, passwordCheck };

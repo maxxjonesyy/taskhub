@@ -79,16 +79,6 @@ const register = async (req, res) => {
         .json({ error: "Please enter a correct email address" });
     }
 
-    if (!validator.isStrongPassword(password)) {
-      return res.status(400).json({
-        error: `Password must contain: 
-              At least 8 characters
-              At least 1 uppercase letter
-              At least 1 lowercase letter
-              At least 1 number`,
-      });
-    }
-
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
