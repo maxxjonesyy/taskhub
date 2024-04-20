@@ -1,13 +1,16 @@
 import { useState } from "react";
 import axios from "axios";
 import { renderAlert } from "../utils";
+import { PulseLoader } from "react-spinners";
 
 function Register({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function handleRegister(event: any): Promise<void> {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await axios.post("/auth/register", {
@@ -27,6 +30,8 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
       }
     } catch (error: any) {
       renderAlert("error", error.response.data.error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -62,7 +67,7 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
         />
 
         <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
-          Register
+          {isLoading ? <PulseLoader color='#FFFFFF' size={10} /> : "Register"}
         </button>
 
         <button

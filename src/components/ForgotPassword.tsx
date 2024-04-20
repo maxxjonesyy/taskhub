@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { renderAlert } from "../utils";
+import { PulseLoader } from "react-spinners";
 
 function ForgotPassword() {
   const [email, setEmail] = useState<string>("");
   const [verifiedEmail, setVerifiedEmail] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [code, setCode] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -19,6 +21,7 @@ function ForgotPassword() {
 
   const handleResetCode = async (event: any) => {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await axios.post("/auth/send-reset-code", {
@@ -32,11 +35,15 @@ function ForgotPassword() {
       }
     } catch (error: any) {
       renderAlert("error", error.response.data.error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const resetPassword = async (event: any) => {
     event.preventDefault();
+    setIsLoading(true);
+
     const convertedCode = Number(code);
 
     if (isNaN(convertedCode)) {
@@ -60,6 +67,8 @@ function ForgotPassword() {
         "error",
         "An error occurred while resetting your password, try something stronger"
       );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -118,7 +127,11 @@ function ForgotPassword() {
             <button
               onClick={(event) => resetPassword(event)}
               className='w-full mt-6 bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
-              Save new password
+              {isLoading ? (
+                <PulseLoader color='#FFFFFF' size={10} />
+              ) : (
+                "Save new password"
+              )}
             </button>
           </div>
         )}
@@ -127,7 +140,11 @@ function ForgotPassword() {
           <button
             onClick={(event) => handleResetCode(event)}
             className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
-            Recover password
+            {isLoading ? (
+              <PulseLoader color='#FFFFFF' size={10} />
+            ) : (
+              "Recover password"
+            )}
           </button>
         )}
 

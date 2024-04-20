@@ -4,15 +4,19 @@ import axios from "axios";
 import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
 import { renderAlert } from "../utils";
+import { PulseLoader } from "react-spinners";
 
 function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordComponent, setPasswordComponent] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const { login } = useContext(AuthContext);
 
   async function handleLogin(event: any): Promise<void> {
     event.preventDefault();
+    setIsLoading(true);
 
     try {
       const response = await axios.post("/auth/login", {
@@ -33,6 +37,8 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
       }
     } catch (error: any) {
       renderAlert("error", error.response.data.error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -65,7 +71,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
         />
 
         <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
-          Login
+          {isLoading ? <PulseLoader color='#FFFFFF' size={10} /> : "Login"}
         </button>
 
         <button className='bg-transparent border border-accent-grey rounded-md p-3 font-medium shadow-lg transition-transform hover:scale-105'>
