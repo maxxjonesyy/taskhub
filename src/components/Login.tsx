@@ -21,12 +21,11 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
       });
 
       if (response.status === 200) {
-        const { message, data } = response.data;
+        const { message, user } = response.data;
 
         if (response.status === 200) {
-          const token = data;
           renderAlert("success", message);
-          if (login) login(token);
+          login(user);
 
           setEmail("");
           setPassword("");

@@ -49,9 +49,15 @@ const login = async (req, res) => {
       expiresIn: "15m",
     });
 
+    const returnedUser = {
+      username: user.username,
+      email: user.email,
+      token,
+    };
+
     res.status(200).json({
       message: "Login successful",
-      data: token,
+      user: returnedUser,
     });
   } catch (error) {
     console.error("Error logging in:", error);
@@ -90,6 +96,7 @@ const register = async (req, res) => {
     }
 
     const newUser = new User({
+      username: email.split("@")[0],
       email,
       password: await bcrypt.hash(password, 10),
     });

@@ -4,7 +4,7 @@ import { createContext } from "react";
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  login: (token: string) => void;
+  login: (user: Object) => void;
   logout: () => void;
 }
 
@@ -20,13 +20,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  async function login(token: string) {
-    localStorage.setItem("token", token);
+  async function login(user: Object) {
+    localStorage.setItem("user", JSON.stringify(user));
     setIsAuthenticated(true);
   }
 
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsAuthenticated(false);
   };
 

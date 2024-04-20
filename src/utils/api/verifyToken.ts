@@ -2,15 +2,15 @@ import axios from "axios";
 
 async function verifyToken(): Promise<boolean> {
   try {
-    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    if (!token) {
+    if (!user.token) {
       return false;
     }
 
     const response = await axios.get("/auth/verify-token", {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
 
