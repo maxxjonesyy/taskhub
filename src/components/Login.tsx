@@ -1,11 +1,13 @@
 import { useState, useContext } from "react";
 
+import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
 import { sendFormData } from "../utils";
 
 function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [passwordComponent, setPasswordComponent] = useState<boolean>(false);
   const { login } = useContext(AuthContext);
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
@@ -21,7 +23,7 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
     });
   }
 
-  return (
+  return !passwordComponent ? (
     <div className='w-full'>
       <form
         onSubmit={handleLogin}
@@ -67,10 +69,16 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
             Don't have an account?
           </button>
 
-          <button className='underline'>Forgot Password?</button>
+          <button
+            className='underline'
+            onClick={() => setPasswordComponent(true)}>
+            Forgot Password?
+          </button>
         </div>
       </form>
     </div>
+  ) : (
+    <ForgotPassword />
   );
 }
 
