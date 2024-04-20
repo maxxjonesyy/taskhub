@@ -19,12 +19,19 @@ function ForgotPassword() {
 
   const handleResetCode = async (event: any) => {
     event.preventDefault();
-    const response = await axios.post("/auth/send-reset-code", { email });
+
+    try {
+      const response = await axios.post("/auth/send-reset-code", {
+        email,
+      });
 
     if (response.status === 200) {
       renderAlert("success", response.data.message);
       setSentEmail(true);
       setVerifiedEmail(false);
+      }
+    } catch (error: any) {
+      renderAlert("error", error.response.data.error);
     }
   };
 
