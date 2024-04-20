@@ -25,10 +25,10 @@ function ForgotPassword() {
         email,
       });
 
-    if (response.status === 200) {
-      renderAlert("success", response.data.message);
-      setSentEmail(true);
-      setVerifiedEmail(false);
+      if (response.status === 200) {
+        renderAlert("success", response.data.message);
+        setSentEmail(true);
+        setVerifiedEmail(false);
       }
     } catch (error: any) {
       renderAlert("error", error.response.data.error);
@@ -52,11 +52,8 @@ function ForgotPassword() {
 
       if (response.status === 200) {
         renderAlert("success", "Your new password has been set");
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-        window.location.reload();
+        setCode("");
+        setNewPassword("");
       } else renderAlert("error", response.data.message);
     } catch (error) {
       renderAlert("error", "An error occurred while resetting your password");
