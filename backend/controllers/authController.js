@@ -138,7 +138,7 @@ const sendResetCode = async (req, res) => {
   try {
     await user.save();
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: "Taskhub <onboarding@resend.dev>",
       to: [email],
       subject: "Recover password",
@@ -171,8 +171,8 @@ const resetPassword = async (req, res) => {
     return res.status(400).json({ error: "Invalid code" });
   }
 
+  await User.updateOne({ resetCode: code }, { $unset: { resetCode: 1 } });
   user.password = await bcrypt.hash(password, 10);
-  user.resetCode = null;
 
   try {
     await user.save();
