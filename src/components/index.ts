@@ -3,4 +3,6 @@ import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 import ProtectedRoute from "./ProtectedRoute";
 
-export { Login, Register, ForgotPassword, ProtectedRoute };
+import PasswordInput from "./ui/PasswordInput";
+
+export { Login, Register, ForgotPassword, ProtectedRoute, PasswordInput };

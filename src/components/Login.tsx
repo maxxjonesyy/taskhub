@@ -5,6 +5,7 @@ import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
 import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
+import { PasswordInput } from "../components/index";
 
 function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
@@ -61,13 +62,10 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
           required
         />
 
-        <input
-          className='bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
-          type='password'
+        <PasswordInput
+          password={password}
+          setPassword={setPassword}
           placeholder='Password'
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
         />
 
         <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
+import { PasswordInput } from "../components/index";
 
 function ForgotPassword() {
   const [email, setEmail] = useState<string>("");
@@ -106,7 +107,7 @@ function ForgotPassword() {
         {sentEmail && (
           <div>
             <input
-              className='w-full bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
+              className='w-full mb-6 bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
               type='string'
               placeholder='Code'
               value={code}
@@ -115,13 +116,10 @@ function ForgotPassword() {
               required
             />
 
-            <input
-              className='w-full mt-6 bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
-              type='password'
+            <PasswordInput
+              password={newPassword}
+              setPassword={setNewPassword}
               placeholder='New password'
-              value={newPassword}
-              onChange={(event) => setNewPassword(event.target.value)}
-              required
             />
 
             <button

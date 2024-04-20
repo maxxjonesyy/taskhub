@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
+import { PasswordInput } from "../components/index";
 
 function Register({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
@@ -56,14 +57,10 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
           required
         />
 
-        <input
-          className='bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
-          type='password'
+        <PasswordInput
+          password={password}
+          setPassword={setPassword}
           placeholder='Password'
-          minLength={8}
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
         />
 
         <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
