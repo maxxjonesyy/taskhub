@@ -96,7 +96,7 @@ function ForgotPassword() {
             <input
               className='w-full bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
               type='string'
-              placeholder='Verification code'
+              placeholder='Code'
               value={code}
               onChange={(event) => setCode(event.target.value)}
               maxLength={4}
@@ -106,7 +106,7 @@ function ForgotPassword() {
             <input
               className='w-full mt-6 bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
               type='password'
-              placeholder='Set new password'
+              placeholder='New password'
               value={newPassword}
               onChange={(event) => setNewPassword(event.target.value)}
               required
