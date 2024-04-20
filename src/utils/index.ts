@@ -4,4 +4,4 @@ import renderAlert from "./renderAlert";
 import sendFormData from "./api/sendFormData";
 import verifyToken from "./api/verifyToken";
 
-export { renderAlert, logoutUser, sendFormData, verifyToken };
+export { renderAlert, sendFormData, verifyToken };

@@ -2,6 +2,16 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
+const { Resend } = require("resend");
+
+const generateCode = () => {
+  const digits = [];
+  for (let i = 0; i < 4; i++) {
+    const randomDigit = Math.floor(Math.random() * 10);
+    digits.push(randomDigit);
+  }
+  return digits.join("");
+};
 
 const login = async (req, res) => {
   try {
@@ -99,4 +109,86 @@ const verifyToken = async (req, res) => {
   res.status(200).json({ message: "Token verified" });
 };
 
-module.exports = { login, register, verifyToken };
+const verifyEmailExists = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    return res.status(400).json({ error: "Email not found" });
+  }
+
+  return res.status(200).json({ message: "Email found" });
+};
+
+const sendResetCode = async (req, res) => {
+  const { email } = req.body;
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const user = await User.findOne({ email });
+
+  if (!email) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  if (!user) {
+    return res.status(400).json({ error: "Email not found" });
+  }
+
+  user.resetCode = generateCode();
+
+  try {
+    await user.save();
+
+    const { data, error } = await resend.emails.send({
+      from: "Taskhub <onboarding@resend.dev>",
+      to: [email],
+      subject: "Recover password",
+      html: `<p>Paste the following code to reset your password: <b>${user.resetCode}</b></p>`,
+    });
+
+    if (error) {
+      return res
+        .status(500)
+        .json({ error: "An error occurred while sending email" });
+    }
+
+    return res.status(200).json({ message: `Reset code sent to: ${email}` });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while sending email" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { code, password } = req.body;
+  const user = await User.findOne({ resetCode: code });
+
+  if (!code || !password) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
+
+  if (!user) {
+    return res.status(400).json({ error: "Invalid code" });
+  }
+
+  user.password = await bcrypt.hash(password, 10);
+  user.resetCode = null;
+
+  try {
+    await user.save();
+    return res.status(200).json({ message: "Password reset successful" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ error: "An error occurred while resetting password" });
+  }
+};
+
+module.exports = {
+  login,
+  register,
+  verifyToken,
+  verifyEmailExists,
+  sendResetCode,
+  resetPassword,
+};
