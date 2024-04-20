@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
+import axios from "axios";
 
 import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
-import { sendFormData } from "../utils";
+import { renderAlert } from "../utils";
 
 function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
@@ -10,23 +11,36 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
   const [passwordComponent, setPasswordComponent] = useState<boolean>(false);
   const { login } = useContext(AuthContext);
 
-  async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
+  async function handleLogin(event: any): Promise<void> {
     event.preventDefault();
-    await sendFormData({
-      endpoint: "/auth/login",
-      event,
-      email,
-      password,
-      setEmail,
-      setPassword,
-      login,
-    });
+
+    try {
+      const response = await axios.post("/auth/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { message, data } = response.data;
+
+        if (response.status === 200) {
+          const token = data;
+          renderAlert("success", message);
+          if (login) login(token);
+
+          setEmail("");
+          setPassword("");
+        }
+      }
+    } catch (error: any) {
+      renderAlert("error", error.response.data.error);
+    }
   }
 
   return !passwordComponent ? (
     <div className='w-full'>
       <form
-        onSubmit={handleLogin}
+        onSubmit={(event: any) => handleLogin(event)}
         className='w-[350px] flex flex-col justify-center mx-auto gap-6'>
         <div>
           <h2 className='text-3xl font-bold mb-2'>Login</h2>

@@ -1,20 +1,33 @@
 import { useState } from "react";
-import { sendFormData } from "../utils";
+import axios from "axios";
+import { renderAlert } from "../utils";
 
 function Register({ setIsLogin }: { setIsLogin: Function }) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  async function handleRegister(event: React.FormEvent<HTMLFormElement>) {
+  async function handleRegister(event: any): Promise<void> {
     event.preventDefault();
-    await sendFormData({
-      endpoint: "/auth/register",
-      event,
-      email,
-      password,
-      setEmail,
-      setPassword,
-    });
+
+    try {
+      const response = await axios.post("/auth/register", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { message } = response.data;
+
+        if (message) {
+          renderAlert("success", message);
+        }
+
+        setEmail("");
+        setPassword("");
+      }
+    } catch (error: any) {
+      renderAlert("error", error.response.data.error);
+    }
   }
 
   return (
