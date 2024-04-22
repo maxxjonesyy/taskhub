@@ -95,7 +95,7 @@ function ForgotPassword() {
 
         {!sentEmail && (
           <input
-            className='bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
+            className='bg-transparent border border-secondary rounded-md p-3 placeholder:secondary'
             type='email'
             placeholder='Email'
             value={email}
@@ -107,7 +107,7 @@ function ForgotPassword() {
         {sentEmail && (
           <div>
             <input
-              className='w-full mb-6 bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
+              className='w-full mb-6 bg-transparent border border-secondary rounded-md p-3 placeholder:secondary'
               type='string'
               placeholder='Code'
               value={code}
@@ -124,7 +124,7 @@ function ForgotPassword() {
 
             <button
               onClick={(event) => resetPassword(event)}
-              className='w-full mt-6 bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
+              className='w-full mt-6 bg-accent font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
               {isLoading ? (
                 <PulseLoader color='#FFFFFF' size={10} />
               ) : (
@@ -137,7 +137,7 @@ function ForgotPassword() {
         {verifiedEmail && !sentEmail && (
           <button
             onClick={(event) => handleResetCode(event)}
-            className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
+            className='bg-accent font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-10'>
             {isLoading ? (
               <PulseLoader color='#FFFFFF' size={10} />
             ) : (
@@ -148,7 +148,7 @@ function ForgotPassword() {
 
         <button
           onClick={() => window.location.reload()}
-          className='bg-transparent border border-accent-grey rounded-md p-3 font-medium shadow-lg transition-transform hover:scale-105'>
+          className='bg-transparent border border-secondary rounded-md p-3 font-medium shadow-lg transition-transform hover:scale-105'>
           Back to Login
         </button>
       </form>

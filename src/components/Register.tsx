@@ -43,13 +43,13 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
         className='w-[350px] flex flex-col justify-center mx-auto gap-6'>
         <div>
           <h2 className='text-3xl font-bold mb-2'>Register</h2>
-          <p className='text-accent-grey'>
+          <p className='text-secondary'>
             Enter your details below to create an account
           </p>
         </div>
 
         <input
-          className='bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
+          className='bg-transparent border border-secondary rounded-md p-3 placeholder:secondary'
           type='email'
           placeholder='Email'
           value={email}
@@ -63,12 +63,12 @@ function Register({ setIsLogin }: { setIsLogin: Function }) {
           placeholder='Password'
         />
 
-        <button className='bg-accent-red font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
+        <button className='bg-accent font-medium rounded-md p-2.5 shadow-lg transition-transform hover:scale-105'>
           {isLoading ? <PulseLoader color='#FFFFFF' size={10} /> : "Register"}
         </button>
 
         <button
-          className='underline'
+          className='underline text-secondary'
           onClick={(event) => {
             event.preventDefault();
             setIsLogin(true);

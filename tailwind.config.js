@@ -6,11 +6,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        "accent-red": "var(--accent-red)",
-        "accent-grey": "var(--accent-grey)",
-        "text-grey": "var(--text-grey)",
-        "background-light": "var(--background-light)",
-        "background-dark": "var(--background-dark)",
+        accent: "var(--accent)",
+        primary: "var(--primary)",
+        secondary: "var(--secondary)",
+        "background-primary": "var(--background-primary)",
+        "background-secondary": "var(--background-secondary)",
       },
       fontFamily: {
         sans: ["Poppins", ...defaultTheme.fontFamily.sans],

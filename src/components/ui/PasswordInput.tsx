@@ -15,7 +15,7 @@ function PasswordInput({
     <div className='relative flex items-center gap-1'>
       <input
         id='password'
-        className='w-full bg-transparent border border-accent-grey rounded-md p-3 placeholder:accent-grey'
+        className='w-full bg-transparent border border-secondary rounded-md p-3 placeholder:secondary'
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
         value={password}

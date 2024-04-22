@@ -22,7 +22,7 @@ function App() {
   }, [isAuthenticated, navigate]);
 
   return (
-    <div className='min-h-screen bg-background-light'>
+    <div className='min-h-screen bg-background-primary'>
       <Routes>
         <Route path='/auth' element={<Auth />} />
 

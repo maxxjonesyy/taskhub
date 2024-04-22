@@ -15,19 +15,19 @@
 
 @layer base {
     :root {
-        --accent-red: #CB384A;
-        --accent-grey: #777777;
-        --text-grey: #D8D8D8;
-        --background-light: #222222;
-        --background-dark: #1B1B1B;
+        --accent: #4059B3;
+        --primary: #D8D8D8;
+        --secondary: #777777;
+        --background-primary: #212121;  
+        --background-secondary: #252525;
     }
 
     html {
-        @apply text-text-grey;
+        @apply text-primary;
     }
 
     input, button, a {
-        @apply focus:outline-offset-2 focus:outline-text-grey;
+        @apply focus:outline-offset-2 focus:outline-secondary;
     }
 }
 
