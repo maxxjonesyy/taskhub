@@ -3,38 +3,39 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 400;
-    src: url('../fonts/poppins-v15-latin-regular.eot');
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/poppins-v15-latin-regular.eot");
 }
 
 .swal2-title {
-    font-size: 14px !important;
+  font-size: 14px !important;
 }
 
 @layer base {
-    :root {
-        --accent: #4059B3;
-        --primary: #D8D8D8;
-        --secondary: #777777;
-        --background-primary: #212121;  
-        --background-secondary: #252525;
-    }
+  :root {
+    --accent: #4059b3;
+    --primary: #d8d8d8;
+    --secondary: #777777;
+    --background-accent: #212121;
+    --background-primary: #1c1c1c;
+    --background-secondary: #292929;
+  }
 
-    html {
-        @apply text-primary;
-    }
+  html {
+    @apply text-primary;
+  }
 
-    input, button, a {
-        @apply focus:outline-offset-2 focus:outline-secondary;
-    }
+  input,
+  button,
+  a {
+    @apply focus:outline-offset-2 focus:outline-secondary;
+  }
 }
 
 @layer components {
-    
- }
+}
 
 @layer utilities {
- 
 }

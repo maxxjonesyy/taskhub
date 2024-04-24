@@ -9,6 +9,7 @@ export default {
         accent: "var(--accent)",
         primary: "var(--primary)",
         secondary: "var(--secondary)",
+        "background-accent": "var(--background-accent)",
         "background-primary": "var(--background-primary)",
         "background-secondary": "var(--background-secondary)",
       },
