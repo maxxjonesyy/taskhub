@@ -1,55 +1,73 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [modal, setModal] = useState<string>("");
   const { logout } = useContext(AuthContext);
 
   useEffect(() => {
-    function handleOutsideClick(event: any) {
-      const target = event.target as HTMLElement;
-      const nav = document.querySelector("nav");
-      const settings = document.getElementById("settings");
+    const nav = document.querySelector("nav");
 
-      if (!nav?.contains(target)) settings?.classList.add("hidden");
+    function handleOutsideClick(event: any) {
+      if (!nav?.contains(event.target)) setModal("");
     }
     document.addEventListener("click", handleOutsideClick);
 
     return () => {
       document.removeEventListener("click", handleOutsideClick);
     };
-  });
+  }, []);
 
   return (
-    <nav className="lg:min-h-screen min-w-[250px] bg-background-secondary lg:bg-gradient-to-t lg:from-background-primary lg:to-background-secondary">
-      <div
-        onClick={() =>
-          document.getElementById("settings")?.classList.toggle("hidden")
-        }
-        className="relative flex justify-start lg:justify-between transition-colors rounded-md m-2 hover:cursor-pointer hover:bg-background-accent"
-      >
-        <h1 className="font-bold text-lg p-2">{user.username}</h1>
-        <img
-          className="p-2"
-          src="./src/assets/icons/settings.svg"
-          alt="settings icon"
-        />
+    <nav className='mx-auto w-full p-5 border-b-2 border-background-accent'>
+      <ul className='flex items-center justify-center md:justify-start gap-8 font-bold p-2'>
+        <li className='mt-2'>
+          <img
+            className='max-w-[125px] md:max-w-[300px]'
+            width={200}
+            src='src/assets/logo.svg'
+            alt='taskhub logo'
+          />
+        </li>
+        <li
+          onClick={() => setModal(modal === "settings" ? "" : "settings")}
+          className='relative inline-flex gap-2 hover:cursor-pointer'>
+          <img src='src/assets/icons/settings.svg' alt='toggle settings menu' />
+          <span>Settings</span>
+        </li>
+        <li
+          onClick={() => setModal(modal === "projects" ? "" : "projects")}
+          className='inline-flex gap-2 hover:cursor-pointer'>
+          <img src='src/assets/icons/projects.svg' alt='toggle projects menu' />
+          <span>Projects</span>
+        </li>
+      </ul>
 
-        <aside
-          id="settings"
-          className="hidden absolute min-w-[250px] left-0 -bottom-32 cursor-default bg-background-accent shadow-lg rounded-md"
-        >
-          <div className="text-center p-3">
-            <p className="font-light text-primary">{user.email}</p>
-            <button
-              onClick={logout}
-              className="w-full mt-5 p-2 bg-background-secondary font-semibold rounded-md"
-            >
-              Logout
-            </button>
-          </div>
+      {modal === "settings" && (
+        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
+          <p className='text-secondary'>
+            Logged in as {""}
+            <span className='font-bold text-primary'>{user.username}</span>
+          </p>
+          <button
+            className='mt-5 w-full bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'
+            onClick={logout}>
+            Delete account
+          </button>
+          <button
+            className='mt-5 w-full bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'
+            onClick={logout}>
+            Logout
+          </button>
         </aside>
-      </div>
+      )}
+
+      {modal === "projects" && (
+        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
+          <p className='text-secondary'>Coming soon</p>
+        </aside>
+      )}
     </nav>
   );
 }
