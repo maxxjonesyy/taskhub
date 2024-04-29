@@ -1,16 +1,69 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { renderAlert } from "../utils";
+import { PulseLoader } from "react-spinners";
+import axios from "axios";
 
-function Navbar() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const [modal, setModal] = useState<string>("");
+import { Project, User } from "../types/types";
+
+interface NavbarProps {
+  user: User;
+  projects: Array<Project>;
+  setProjects: Function;
+}
+
+function Navbar({ user, projects, setProjects }: NavbarProps) {
+  const [menu, setMenu] = useState<string>("");
+  const [projectName, setProjectName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
   const { logout } = useContext(AuthContext);
+
+  async function createProject() {
+    setLoading(true);
+
+    if (!projectName) {
+      renderAlert("error", "Project name is required");
+      setLoading(false);
+      return;
+    }
+
+    if (projectName.length < 3) {
+      renderAlert("error", "Project name must be at least 3 characters long");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "/api/create-project",
+        {
+          projectName,
+          id: user.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        renderAlert("success", "Project created successfully");
+        setProjects([...projects, response.data.project]);
+      }
+    } catch (error: any) {
+      renderAlert("error", error.response.data.error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     const nav = document.querySelector("nav");
 
     function handleOutsideClick(event: any) {
-      if (!nav?.contains(event.target)) setModal("");
+      if (!nav?.contains(event.target)) setMenu("");
     }
     document.addEventListener("click", handleOutsideClick);
 
@@ -31,20 +84,20 @@ function Navbar() {
           />
         </li>
         <li
-          onClick={() => setModal(modal === "settings" ? "" : "settings")}
+          onClick={() => setMenu(menu === "settings" ? "" : "settings")}
           className='relative inline-flex gap-2 hover:cursor-pointer'>
           <img src='src/assets/icons/settings.svg' alt='toggle settings menu' />
           <span>Settings</span>
         </li>
         <li
-          onClick={() => setModal(modal === "projects" ? "" : "projects")}
+          onClick={() => setMenu(menu === "projects" ? "" : "projects")}
           className='inline-flex gap-2 hover:cursor-pointer'>
           <img src='src/assets/icons/projects.svg' alt='toggle projects menu' />
           <span>Projects</span>
         </li>
       </ul>
 
-      {modal === "settings" && (
+      {menu === "settings" && (
         <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
           <p className='text-secondary'>
             Logged in as {""}
@@ -63,9 +116,57 @@ function Navbar() {
         </aside>
       )}
 
-      {modal === "projects" && (
-        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
-          <p className='text-secondary'>Coming soon</p>
+      {menu === "projects" && (
+        <aside
+          onClick={() => {
+            const createProject = document.getElementById("create-project");
+            createProject?.classList.remove("hidden");
+            createProject?.classList.add("inline-flex");
+          }}
+          className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
+          <button className='w-full inline-flex items-center justify-center gap-2 bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
+            <img src='./src/assets/icons/plus-icon.svg' alt='create project' />
+            <span>Create Project</span>
+          </button>
+
+          <div id='create-project' className='hidden w-full gap-2 text-sm mt-5'>
+            <input
+              value={projectName}
+              onChange={(event) => setProjectName(event.target.value)}
+              className='flex-1 bg-transparent border border-secondary rounded-md p-2'
+              type='text'
+              placeholder='Project name'
+            />
+            <button
+              type='submit'
+              onClick={createProject}
+              className='w-full bg-accent rounded-md p-2 ml-2 transition-transform hover:scale-105'>
+              {loading ? <PulseLoader color='#FFFFFF' size={6} /> : "Create"}
+            </button>
+          </div>
+
+          <ul>
+            <li>
+              <h1 className='mt-5 w-1/2 font-bold border-b border-secondary pb-2'>
+                Projects
+              </h1>
+            </li>
+            {projects.length > 0 ? (
+              projects.map((project: Project) => {
+                return (
+                  <li
+                    key={project._id}
+                    className='mt-5 p-2 transition-colors cursor-pointer hover:bg-accent rounded-md'>
+                    <span className=''>{project.name}</span>
+                  </li>
+                );
+              })
+            ) : (
+              <li className='mt-5 p-2'>
+                <span className=' text-secondary'>No projects found.</span>
+              </li>
+            )}
+          </ul>
         </aside>
       )}
     </nav>
