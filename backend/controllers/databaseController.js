@@ -6,12 +6,22 @@ const createProject = async (req, res) => {
     const { projectName, id } = req.body;
     const user = await User.findOne({ _id: id });
 
+    if (!id) {
+      return res.status(400).json({ error: "User ID is required" });
+    }
+
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
 
     if (!projectName) {
       return res.status(400).json({ error: "Project name is required" });
+    }
+
+    if (projectName.length < 3) {
+      return res
+        .status(400)
+        .json({ error: "Project name must be at least 3 characters long" });
     }
 
     const newProject = new Project({
