@@ -1,10 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
-import axios from "axios";
 
 import { Project, User } from "../types/types";
+import { createProject } from "../utils";
 
 interface NavbarProps {
   user: User;
@@ -19,41 +18,16 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
 
   const { logout } = useContext(AuthContext);
 
-  async function createProject() {
+  async function handleCreateProject() {
     setLoading(true);
 
-    if (!projectName) {
-      renderAlert("error", "Project name is required");
-      setLoading(false);
-      return;
-    }
-
-    if (projectName.length < 3) {
-      renderAlert("error", "Project name must be at least 3 characters long");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const response = await axios.post(
-        "/api/create-project",
-        {
-          projectName,
-          id: user.id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
+      const { data, error } = await createProject(projectName, user);
 
-      if (response.status === 200) {
-        renderAlert("success", "Project created successfully");
-        setProjects([...projects, response.data.project]);
-      }
-    } catch (error: any) {
-      renderAlert("error", error.response.data.error);
+      if (data) setProjects([...projects, data.project]);
+      if (error) console.error(error);
+    } catch (error) {
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -139,7 +113,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
             />
             <button
               type='submit'
-              onClick={createProject}
+              onClick={handleCreateProject}
               className='w-full bg-accent rounded-md p-2 ml-2 transition-transform hover:scale-105'>
               {loading ? <PulseLoader color='#FFFFFF' size={6} /> : "Create"}
             </button>

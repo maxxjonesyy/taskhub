@@ -24,7 +24,7 @@ function Dashboard() {
 
   useEffect(() => {
     getProjects();
-  }, []);
+  }, [projects]);
 
   return (
     <section className='flex flex-col'>
