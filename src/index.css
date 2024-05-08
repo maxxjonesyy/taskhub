@@ -32,7 +32,16 @@
   a {
     @apply focus:outline-offset-2 focus:outline-secondary;
   }
+
+  h1 {
+    @apply text-3xl font-bold md:text-4xl;
+  }
+  
+  p {
+    @apply mt-3;
+  }
 }
+
 
 @layer components {
 }

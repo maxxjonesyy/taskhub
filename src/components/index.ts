@@ -3,6 +3,7 @@ import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./Navbar";
+import WelcomeScreen from "./WelcomeScreen";
 
 import PasswordInput from "./ui/PasswordInput";
 
@@ -13,4 +14,5 @@ export {
   ProtectedRoute,
   PasswordInput,
   Navbar,
+  WelcomeScreen,
 };

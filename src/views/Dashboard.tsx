@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navbar } from "../components";
+import { Navbar, WelcomeScreen } from "../components";
 import axios from "axios";
 
 function Dashboard() {
@@ -27,11 +27,15 @@ function Dashboard() {
   }, [projects]);
 
   return (
-    <section className='flex flex-col'>
+    <section className='min-h-screen flex flex-col'>
       <Navbar user={user} projects={projects} setProjects={setProjects} />
 
       <div className='flex-1 p-5'>
-        <p>Dashboard goes here</p>
+        <WelcomeScreen
+          user={user}
+          projects={projects}
+          setProjects={setProjects}
+        />
       </div>
     </section>
   );
