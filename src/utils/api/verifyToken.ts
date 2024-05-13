@@ -1,4 +1,5 @@
 import axios from "axios";
+import renderAlert from "../renderAlert";
 
 async function verifyToken(): Promise<boolean> {
   try {
@@ -17,8 +18,14 @@ async function verifyToken(): Promise<boolean> {
     if (response.status === 200) {
       return true;
     } else return false;
-  } catch (error) {
-    console.error("Error verifying token:", error);
+  } catch (error: any) {
+    if (error.response) {
+      renderAlert(
+        "error",
+        `Error verifying token: ${error.response.data.message}`
+      );
+    } else renderAlert("error", `Error verifying token: ${error}`);
+
     return false;
   }
 }

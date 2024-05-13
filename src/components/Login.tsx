@@ -37,7 +37,9 @@ function Login({ setIsLogin }: { setIsLogin: Function }) {
         }
       }
     } catch (error: any) {
-      renderAlert("error", error.response.data.error);
+      if (error.response) {
+        renderAlert("error", `Error logging in: ${error.response.data.error}`);
+      } else renderAlert("error", `Error logging in: ${error}`);
     } finally {
       setIsLoading(false);
     }
