@@ -121,7 +121,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
 
           <ul>
             <li>
-              <h1 className='mt-5 w-1/2 font-bold border-b border-secondary pb-2'>
+              <h1 className='text-lg mt-5 w-1/2 font-bold border-b border-secondary pb-2'>
                 Projects
               </h1>
             </li>
@@ -137,7 +137,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
               })
             ) : (
               <li className='mt-5 p-2'>
-                <span className=' text-secondary'>No projects found.</span>
+                <span className='text-secondary'>No projects found.</span>
               </li>
             )}
           </ul>
