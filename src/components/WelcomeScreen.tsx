@@ -31,7 +31,7 @@ function WelcomeScreen({
   }
 
   return (
-    <section className='flex flex-col items-start p-10'>
+    <section className='flex flex-col items-start p-5'>
       <h1 className='w-full md:w-3/4 border-b-2 border-background-secondary pb-3'>
         Welcome to Taskhub!
       </h1>
