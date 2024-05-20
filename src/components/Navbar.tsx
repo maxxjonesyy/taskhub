@@ -74,7 +74,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
       </ul>
 
       {menu === "settings" && (
-        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
+        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl z-[999]'>
           <p className='text-secondary'>
             Logged in as {""}
             <span className='font-bold text-primary'>{user.username}</span>
@@ -93,7 +93,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
       )}
 
       {menu === "projects" && (
-        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl'>
+        <aside className='absolute mt-5 p-5 w-[325px] rounded-md bg-background-secondary shadow-xl z-[999]'>
           <button
             onClick={() => {
               const createProject = document.getElementById("create-project");
