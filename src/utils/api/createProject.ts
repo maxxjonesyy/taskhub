@@ -19,7 +19,7 @@ async function createProject(projectName: string, user: User) {
 
     if (response.status === 200) {
       renderAlert("success", "Project created successfully");
-      return response.data;
+      return response;
     }
   } catch (error: any) {
     renderAlert("error", error.response.data.error);
