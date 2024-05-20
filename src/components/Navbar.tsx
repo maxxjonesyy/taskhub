@@ -29,6 +29,8 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
     } catch (error) {
       console.error(error);
     } finally {
+      setMenu("");
+      setProjectName("");
       setLoading(false);
     }
   }
