@@ -16,3 +16,5 @@ export type Project = {
   updatedAt: Date;
   __v: Number;
 };
+
+export type ActiveProjectType = Project | undefined;
