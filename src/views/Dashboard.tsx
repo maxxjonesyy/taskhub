@@ -11,8 +11,6 @@ function Dashboard() {
   const [loading, setLoading] = useState<boolean>(true);
 
   async function getProjects() {
-    setLoading(true);
-
     try {
       const response = await axios.get(`api/get-projects/${user.id}`, {
         headers: {
@@ -21,8 +19,9 @@ function Dashboard() {
       });
 
       if (response.status === 200) {
+        const projectsLength = response.data.projects.length - 1;
         setProjects(response.data.projects);
-        setActiveProject(response.data.projects[0]);
+        setActiveProject(response.data.projects[projectsLength]);
       }
     } catch (error: any) {
       console.error(error.response.data.error);
@@ -45,7 +44,7 @@ function Dashboard() {
         </div>
       ) : (
         <div className='flex-1 p-5'>
-          {projects.length > 0 ? (
+          {projects.length >= 1 ? (
             <ActiveProject project={activeProject} />
           ) : (
             <WelcomeScreen
