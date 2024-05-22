@@ -24,14 +24,23 @@ function TaskCard({ theme, title }: { theme: string; title: string }) {
   return (
     <div
       style={{ backgroundColor: cardStyles.cardBackground }}
-      className='w-full max-w-[300px] min-h-[300px] mt-5 p-3 rounded-md shadow-sm'>
+      className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 rounded-md shadow-sm'>
       <div
         style={{ backgroundColor: cardStyles.titleBackground }}
-        className='flex items-center gap-2 w-fit py-1 px-3 rounded-lg'>
-        <div
-          style={{ backgroundColor: cardStyles.dot }}
-          className='h-3 w-3 rounded-full'></div>
-        <span className='text-sm'>{title}</span>
+        className='flex items-center justify-between py-1.5 px-3 text-sm rounded-lg'>
+        <div className='inline-flex items-center gap-2'>
+          <div
+            style={{ backgroundColor: cardStyles.dot }}
+            className='h-3 w-3 rounded-full'></div>
+          <span>{title}</span>
+        </div>
+        <button className='transition-colors duration-300 hover:text-secondary'>
+          <img
+            className='relative inline-block pr-1 bottom-[1px]'
+            src='./src/assets/icons/plus-icon.svg'
+          />
+          Create
+        </button>
       </div>
     </div>
   );
