@@ -39,7 +39,7 @@ function TaskCard({ theme, title }: { theme: string; title: string }) {
             className='relative inline-block pr-1 bottom-[1px]'
             src='./src/assets/icons/plus-icon.svg'
           />
-          Create
+          Task
         </button>
       </div>
     </div>
