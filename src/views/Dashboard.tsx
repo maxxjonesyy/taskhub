@@ -20,8 +20,11 @@ function Dashboard() {
 
       if (response.status === 200) {
         const projectsLength = response.data.projects.length - 1;
+        const storedProject = sessionStorage.getItem("activeProject");
         setProjects(response.data.projects);
-        setActiveProject(response.data.projects[projectsLength]);
+
+        if (storedProject) setActiveProject(JSON.parse(storedProject));
+        else setActiveProject(response.data.projects[projectsLength]);
       }
     } catch (error: any) {
       console.error(error.response.data.error);
@@ -36,7 +39,12 @@ function Dashboard() {
 
   return (
     <section className='min-h-screen flex flex-col'>
-      <Navbar user={user} projects={projects} setProjects={setProjects} />
+      <Navbar
+        user={user}
+        projects={projects}
+        setProjects={setProjects}
+        setActiveProject={setActiveProject}
+      />
 
       {loading ? (
         <div className='flex-1 flex items-center justify-center'>

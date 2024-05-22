@@ -9,9 +9,15 @@ interface NavbarProps {
   user: User;
   projects: Array<Project>;
   setProjects: Function;
+  setActiveProject: Function;
 }
 
-function Navbar({ user, projects, setProjects }: NavbarProps) {
+function Navbar({
+  user,
+  projects,
+  setProjects,
+  setActiveProject,
+}: NavbarProps) {
   const [menu, setMenu] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -131,6 +137,14 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
               projects.map((project: Project) => {
                 return (
                   <li
+                    onClick={() => {
+                      sessionStorage.setItem(
+                        "activeProject",
+                        JSON.stringify(project)
+                      );
+                      setActiveProject(project);
+                      setMenu("");
+                    }}
                     key={project._id}
                     className='mt-5 p-2 transition-colors cursor-pointer hover:bg-accent rounded-md'>
                     <span className=''>{project.name}</span>
