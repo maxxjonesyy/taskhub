@@ -24,7 +24,9 @@ async function verifyToken(): Promise<boolean> {
         "error",
         `Error verifying token: ${error.response.data.message}`
       );
-    } else renderAlert("error", `Error verifying token: ${error}`);
+    } else {
+      console.error(`Error verifying token: ${error}`);
+    }
 
     return false;
   }
