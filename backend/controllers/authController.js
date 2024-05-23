@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const User = require("../models/user");
+const Project = require("../models/project");
 const jwt = require("jsonwebtoken");
 const { Resend } = require("resend");
 
@@ -182,6 +183,22 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const deleteAccount = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  const projects = await Project.find({ createdBy: user._id });
+
+  if (user) {
+    if (projects) {
+      await Project.deleteMany({ createdBy: user._id });
+    }
+    await user.deleteOne();
+    return res.status(200).json({ message: "Account deleted" });
+  } else {
+    return res.status(400).json({ error: "Error deleting account" });
+  }
+};
+
 module.exports = {
   login,
   register,
@@ -189,4 +206,5 @@ module.exports = {
   verifyEmailExists,
   sendResetCode,
   resetPassword,
+  deleteAccount,
 };

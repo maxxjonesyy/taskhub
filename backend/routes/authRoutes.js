@@ -7,6 +7,7 @@ const {
   verifyEmailExists,
   sendResetCode,
   resetPassword,
+  deleteAccount,
 } = require("../controllers/authController");
 
 const {
@@ -20,5 +21,6 @@ router.get("/auth/verify-token", verifyAccessToken, verifyToken);
 router.post("/auth/verify-email", verifyEmailExists);
 router.post("/auth/send-reset-code", sendResetCode);
 router.post("/auth/reset-password", passwordCheck, resetPassword);
+router.post("/auth/delete-account", verifyAccessToken, deleteAccount);
 
 module.exports = router;
