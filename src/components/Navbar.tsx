@@ -3,7 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import { PulseLoader } from "react-spinners";
 
 import { Project, User } from "../types/types";
-import { createProject } from "../utils";
+import { createProject, deleteAccount } from "../utils";
+import { warningAlert } from "../utils/";
 
 interface NavbarProps {
   user: User;
@@ -87,7 +88,11 @@ function Navbar({
           </p>
           <button
             className='mt-5 w-full bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'
-            onClick={logout}>
+            onClick={() =>
+              warningAlert("This will delete your account", () =>
+                deleteAccount(user)
+              )
+            }>
             Delete account
           </button>
           <button
