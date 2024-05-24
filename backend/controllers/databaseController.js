@@ -24,6 +24,12 @@ const createProject = async (req, res) => {
         .json({ error: "Project name must be at least 3 characters long" });
     }
 
+    if (projectName.length > 16) {
+      return res
+        .status(400)
+        .json({ error: "Project name must be at most 24 characters long" });
+    }
+
     const newProject = new Project({
       name: projectName,
       createdBy: id,

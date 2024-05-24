@@ -123,6 +123,8 @@ function Navbar({
               className='flex-1 bg-transparent border border-secondary rounded-md p-2'
               type='text'
               placeholder='Project name'
+              maxLength={16}
+              minLength={3}
             />
             <button
               type='submit'
