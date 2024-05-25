@@ -109,32 +109,36 @@ const verifyToken = async (req, res) => {
 };
 
 const verifyEmailExists = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-  if (!user) {
-    return res.status(400).json({ error: "Email not found" });
+    if (!user) {
+      return res.status(400).json({ error: "Email not found" });
+    }
+
+    return res.status(200).json({ message: "Email found" });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while verifying email" });
   }
-
-  return res.status(200).json({ message: "Email found" });
 };
 
 const sendResetCode = async (req, res) => {
-  const { email } = req.body;
-  const resend = new Resend(process.env.RESEND_API_KEY);
-  const user = await User.findOne({ email });
-
-  if (!email) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-
-  if (!user) {
-    return res.status(400).json({ error: "Email not found" });
-  }
-
-  user.resetCode = generateCode();
-
   try {
+    const { email } = req.body;
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const user = await User.findOne({ email });
+
+    if (!email) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (!user) {
+      return res.status(400).json({ error: "Email not found" });
+    }
+
+    user.resetCode = generateCode();
+
     await user.save();
 
     const { error } = await resend.emails.send({
@@ -159,21 +163,21 @@ const sendResetCode = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { code, password } = req.body;
-  const user = await User.findOne({ resetCode: code });
-
-  if (!code || !password) {
-    return res.status(400).json({ error: "All fields are required" });
-  }
-
-  if (!user) {
-    return res.status(400).json({ error: "Invalid code" });
-  }
-
-  await User.updateOne({ resetCode: code }, { $unset: { resetCode: 1 } });
-  user.password = await bcrypt.hash(password, 10);
-
   try {
+    const { code, password } = req.body;
+    const user = await User.findOne({ resetCode: code });
+
+    if (!code || !password) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    if (!user) {
+      return res.status(400).json({ error: "Invalid code" });
+    }
+
+    await User.updateOne({ resetCode: code }, { $unset: { resetCode: 1 } });
+    user.password = await bcrypt.hash(password, 10);
+
     await user.save();
     return res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
@@ -184,18 +188,22 @@ const resetPassword = async (req, res) => {
 };
 
 const deleteAccount = async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-  const projects = await Project.find({ createdBy: user._id });
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    const projects = await Project.find({ createdBy: user._id });
 
-  if (user) {
-    if (projects) {
-      await Project.deleteMany({ createdBy: user._id });
+    if (user) {
+      if (projects) {
+        await Project.deleteMany({ createdBy: user._id });
+      }
+      await user.deleteOne();
+      return res.status(200).json({ message: "Account deleted" });
+    } else {
+      return res.status(400).json({ error: "Error deleting account" });
     }
-    await user.deleteOne();
-    return res.status(200).json({ message: "Account deleted" });
-  } else {
-    return res.status(400).json({ error: "Error deleting account" });
+  } catch (error) {
+    res.status(500).json({ error: "An error occurred while deleting account" });
   }
 };
 
