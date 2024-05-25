@@ -18,7 +18,8 @@ async function createProject(projectName: string, user: User) {
     );
 
     if (response.status === 200) {
-      renderAlert("success", "Project created successfully");
+      const { project } = response.data;
+      renderAlert("success", `${project?.name} was created`);
       return response;
     }
   } catch (error: any) {
