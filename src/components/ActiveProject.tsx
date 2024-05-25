@@ -1,13 +1,48 @@
 import { TaskCard } from "./index";
 import { ActiveProjectType } from "../types/types";
 
-function ActiveProject({ project }: { project: ActiveProjectType }) {
+  let timer: any;
+  async function renameProject(projectName: string, project: DisplayedProject) {
+    try {
+      const response = await axios.patch(
+        "api/rename-project/",
+        {
+          projectId: project?._id,
+          projectName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const { data } = response.data;
+        setProjects(data);
+      }
+    } catch (error) {
+      setProjects(projects);
+    }
+  }
   return (
     <section className='flex flex-col items-start p-5'>
       <h1>{project?.name}</h1>
 
       <div className='w-full md:max-w-[1920px] border-b-2 border-background-secondary pb-2'>
         <ul className='relative bottom-[1px]'>
+                  <input
+                    onChange={(event) => {
+                      clearTimeout(timer);
+                      timer = setTimeout(() => {
+                        renameProject(event.target.value, displayedProject);
+                      }, 800);
+                    }}
+                    className='w-full text-sm placeholder:text-primary bg-transparent hover:bg-background-accent transition-colors duration-300 focus:outline-none border border-secondary rounded-md p-2'
+                    type='text'
+                    placeholder={displayedProject?.name as string}
+                    maxLength={16}
+                  />
           <li className='inline-flex float-end'>
             <img
               className='cursor-pointer'
