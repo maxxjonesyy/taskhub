@@ -21,8 +21,12 @@ function WelcomeScreen({
     try {
       const { data, error } = await createProject(projectName, user);
 
-      if (data) setProjects([...projects, data.project]);
-      if (error) console.error(error);
+      if (data) {
+        setProjects([data.project, ...projects]);
+      }
+      if (error) {
+        console.error(error);
+      }
     } catch (error) {
       console.error(error);
     } finally {

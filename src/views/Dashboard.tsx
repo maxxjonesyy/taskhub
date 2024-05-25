@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Navbar, WelcomeScreen, ActiveProject } from "../components";
-import { ActiveProjectType } from "../types/types";
 import { PulseLoader } from "react-spinners";
 import axios from "axios";
 
 function Dashboard() {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [projects, setProjects] = useState([]);
-  const [activeProject, setActiveProject] = useState<ActiveProjectType>();
   const [loading, setLoading] = useState<boolean>(true);
 
   async function getProjects() {
@@ -19,12 +17,7 @@ function Dashboard() {
       });
 
       if (response.status === 200) {
-        const projectsLength = response.data.projects.length - 1;
-        const storedProject = sessionStorage.getItem("activeProject");
         setProjects(response.data.projects);
-
-        if (storedProject) setActiveProject(JSON.parse(storedProject));
-        else setActiveProject(response.data.projects[projectsLength]);
       }
     } catch (error: any) {
       console.error(error.response.data.error);
@@ -39,12 +32,7 @@ function Dashboard() {
 
   return (
     <section className='min-h-screen flex flex-col'>
-      <Navbar
-        user={user}
-        projects={projects}
-        setProjects={setProjects}
-        setActiveProject={setActiveProject}
-      />
+      <Navbar user={user} projects={projects} setProjects={setProjects} />
 
       {loading ? (
         <div className='flex-1 flex items-center justify-center'>
@@ -53,7 +41,12 @@ function Dashboard() {
       ) : (
         <div className='flex-1 p-5'>
           {projects.length >= 1 ? (
-            <ActiveProject project={activeProject} />
+            <ActiveProject
+              user={user}
+              projects={projects}
+              setProjects={setProjects}
+              displayedProject={projects[0]}
+            />
           ) : (
             <WelcomeScreen
               user={user}

@@ -10,15 +10,9 @@ interface NavbarProps {
   user: User;
   projects: Array<Project>;
   setProjects: Function;
-  setActiveProject: Function;
 }
 
-function Navbar({
-  user,
-  projects,
-  setProjects,
-  setActiveProject,
-}: NavbarProps) {
+function Navbar({ user, projects, setProjects }: NavbarProps) {
   const [menu, setMenu] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,8 +25,12 @@ function Navbar({
     try {
       const { data, error } = await createProject(projectName, user);
 
-      if (data) setProjects([...projects, data.project]);
-      if (error) console.error(error);
+      if (data) {
+        setProjects([data.project, ...projects]);
+      }
+      if (error) {
+        console.error(error);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -145,11 +143,11 @@ function Navbar({
                 return (
                   <li
                     onClick={() => {
-                      sessionStorage.setItem(
-                        "activeProject",
-                        JSON.stringify(project)
-                      );
-                      setActiveProject(project);
+                      const updatedProjects = [
+                        project,
+                        ...projects.filter((p) => p._id !== project._id),
+                      ];
+                      setProjects(updatedProjects);
                       setMenu("");
                     }}
                     key={project._id}

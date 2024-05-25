@@ -17,4 +17,4 @@ export type Project = {
   __v: Number;
 };
 
-export type ActiveProjectType = Project | undefined;
+export type DisplayedProject = Project | undefined;
