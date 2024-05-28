@@ -22,7 +22,7 @@ function TaskCard({ theme, title }: { theme: string; title: string }) {
   const cardStyles = styles[theme as themeType];
 
   return (
-    <div
+    <section
       style={{ backgroundColor: cardStyles.cardBackground }}
       className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 rounded-md shadow-sm'>
       <div
@@ -42,7 +42,7 @@ function TaskCard({ theme, title }: { theme: string; title: string }) {
           Task
         </button>
       </div>
-    </div>
+    </section>
   );
 }
 
