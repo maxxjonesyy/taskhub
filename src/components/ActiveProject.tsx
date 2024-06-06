@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TaskCard } from "./index";
+import { Tasks } from "./index";
 import { User, DisplayedProject } from "../types/types";
 import { deleteProject } from "../utils";
 import axios from "axios";
@@ -111,11 +111,7 @@ function ActiveProject({
         </ul>
       </div>
 
-      <div className='w-full flex flex-wrap gap-3'>
-        <TaskCard theme='notStarted' title='Not started' />
-        <TaskCard theme='inProgress' title='In progress' />
-        <TaskCard theme='done' title='Done' />
-      </div>
+      <Tasks />
     </section>
   );
 }
