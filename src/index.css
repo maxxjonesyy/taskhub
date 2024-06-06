@@ -13,6 +13,10 @@
   font-size: 14px !important;
 }
 
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 @layer base {
   :root {
     --accent: #4059b3;
@@ -36,12 +40,15 @@
   h1 {
     @apply text-3xl font-bold md:text-4xl;
   }
-  
+
   p {
     @apply mt-3;
   }
-}
 
+  .task-input {
+    @apply w-full p-2 bg-transparent text-secondary transition-colors duration-300 rounded-md hover:bg-background-accent hover:cursor-pointer;
+  }
+}
 
 @layer components {
 }

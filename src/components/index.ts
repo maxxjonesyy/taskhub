@@ -5,7 +5,9 @@ import ProtectedRoute from "./ProtectedRoute";
 import Navbar from "./Navbar";
 import WelcomeScreen from "./WelcomeScreen";
 import ActiveProject from "./ActiveProject";
-import TaskCard from "./TaskCard";
+import Tasks from "./Tasks";
+import TaskPanel from "./TaskPanel";
+import CreateTaskButton from "./ui/CreateTaskButton";
 
 import PasswordInput from "./ui/PasswordInput";
 
@@ -18,5 +20,7 @@ export {
   Navbar,
   WelcomeScreen,
   ActiveProject,
-  TaskCard,
+  Tasks,
+  TaskPanel,
+  CreateTaskButton,
 };
