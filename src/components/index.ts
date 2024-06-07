@@ -7,7 +7,6 @@ import WelcomeScreen from "./WelcomeScreen";
 import ActiveProject from "./ActiveProject";
 import Tasks from "./Tasks";
 import TaskPanel from "./TaskPanel";
-import CreateTaskButton from "./ui/CreateTaskButton";
 
 import PasswordInput from "./ui/PasswordInput";
 
@@ -22,5 +21,4 @@ export {
   ActiveProject,
   Tasks,
   TaskPanel,
-  CreateTaskButton,
 };

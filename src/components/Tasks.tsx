@@ -1,11 +1,18 @@
-import { useRef } from "react";
-import { TaskPanel, CreateTaskButton } from "./index";
+import { useEffect, useRef, useState } from "react";
+import { TaskPanel } from "./index";
 
 function Tasks() {
-  const taskPanelRef = useRef();
+  const taskPanelRef = useRef<HTMLDivElement>(null);
+  const [taskObject, setTaskObject] = useState({
+    name: "",
+    priority: "",
+    status: "",
+    date: null,
+    description: "",
+  });
 
-  function showTaskPanel(taskPanelRef: any) {
-    const taskPanel = taskPanelRef.current;
+  function showTaskPanel() {
+    const taskPanel = taskPanelRef.current as HTMLDivElement;
 
     if (!taskPanel.style.right) {
       taskPanel.style.right = "-100%";
@@ -14,6 +21,17 @@ function Tasks() {
     taskPanel.style.right === "-100%"
       ? (taskPanel.style.right = "0")
       : (taskPanel.style.right = "-100%");
+  }
+
+  function hideTaskPanel(event: any) {
+    const taskPanel = taskPanelRef.current as HTMLDivElement;
+
+    if (
+      !taskPanel.contains(event.target) &&
+      event.target.id !== "toggle-panel"
+    ) {
+      taskPanel.style.right = "-100%";
+    }
   }
 
   const styles = {
@@ -34,6 +52,11 @@ function Tasks() {
     },
   };
 
+  useEffect(() => {
+    document.addEventListener("click", hideTaskPanel);
+    return () => document.removeEventListener("click", hideTaskPanel);
+  }, []);
+
   return (
     <section className='w-full flex flex-wrap gap-3'>
       <div
@@ -48,10 +71,19 @@ function Tasks() {
               className='h-3 w-3 rounded-full'></div>
             <span>Not Started</span>
           </div>
-          <CreateTaskButton
-            taskPanelRef={taskPanelRef}
-            showTaskPanel={showTaskPanel}
-          />
+          <button
+            id='toggle-panel'
+            onClick={() => {
+              setTaskObject({ ...taskObject, status: "notStarted" });
+              showTaskPanel();
+            }}
+            className='transition-colors duration-300 hover:text-secondary'>
+            <img
+              className='relative inline-block pr-1 bottom-[1px]'
+              src='./src/assets/icons/plus-icon.svg'
+            />
+            Task
+          </button>
         </div>
       </div>
 
@@ -67,10 +99,19 @@ function Tasks() {
               className='h-3 w-3 rounded-full'></div>
             <span>In Progress</span>
           </div>
-          <CreateTaskButton
-            taskPanelRef={taskPanelRef}
-            showTaskPanel={showTaskPanel}
-          />
+          <button
+            id='toggle-panel'
+            onClick={() => {
+              setTaskObject({ ...taskObject, status: "inProgress" });
+              showTaskPanel();
+            }}
+            className='transition-colors duration-300 hover:text-secondary'>
+            <img
+              className='relative inline-block pr-1 bottom-[1px]'
+              src='./src/assets/icons/plus-icon.svg'
+            />
+            Task
+          </button>
         </div>
       </div>
 
@@ -86,14 +127,27 @@ function Tasks() {
               className='h-3 w-3 rounded-full'></div>
             <span>Done</span>
           </div>
-          <CreateTaskButton
-            taskPanelRef={taskPanelRef}
-            showTaskPanel={showTaskPanel}
-          />
+          <button
+            id='toggle-panel'
+            onClick={() => {
+              setTaskObject({ ...taskObject, status: "done" });
+              showTaskPanel();
+            }}
+            className='transition-colors duration-300 hover:text-secondary'>
+            <img
+              className='relative inline-block pr-1 bottom-[1px]'
+              src='./src/assets/icons/plus-icon.svg'
+            />
+            Task
+          </button>
         </div>
       </div>
 
-      <TaskPanel taskPanelRef={taskPanelRef} />
+      <TaskPanel
+        taskObject={taskObject}
+        setTaskObject={setTaskObject}
+        taskPanelRef={taskPanelRef}
+      />
     </section>
   );
 }
