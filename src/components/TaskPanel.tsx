@@ -18,7 +18,7 @@ function TaskPanel({ taskPanelRef }: { taskPanelRef: any }) {
   return (
     <aside
       ref={taskPanelRef}
-      className='fixed h-full w-2/3 md:w-[400px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
+      className='fixed h-full w-2/3 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
       <form action=''>
         <input
           className='font-bold text-3xl placeholder:text-primary focus:outline-none bg-transparent'
