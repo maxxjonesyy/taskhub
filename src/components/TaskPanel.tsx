@@ -1,6 +1,6 @@
 import { LegacyRef } from "react";
 import { TaskObject } from "../types/types";
-
+import { Editorjs } from "./index";
 function TaskPanel({
   taskObject,
   setTaskObject,
@@ -78,20 +78,7 @@ function TaskPanel({
             />
           </div>
 
-          <div>
-            <label htmlFor='description' className='font-bold'>
-              Description
-            </label>
-            <textarea
-              className='mt-2 w-full h-screen bg-transparent focus:outline-none'
-              name='description'
-              id='description'
-              value={taskObject.description}
-              onChange={(e) =>
-                setTaskObject({ ...taskObject, description: e.target.value })
-              }
-            />
-          </div>
+          <Editorjs taskObject={taskObject} setTaskObject={setTaskObject} />
         </div>
       </form>
     </aside>

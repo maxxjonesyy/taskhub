@@ -17,6 +17,45 @@
   filter: invert(1);
 }
 
+.ce-toolbar__plus,
+.ce-popover-item__title {
+  color: white;
+}
+
+.ce-popover-item__icon,
+.ce-conversion-tool__icon {
+  color: var(--background-secondary);
+}
+
+.ce-toolbar__plus:hover,
+.ce-inline-tool:hover,
+.ce-inline-toolbar__dropdown:hover,
+.ce-popover,
+.ce-conversion-toolbar,
+.ce-inline-toolbar,
+.ce-block--selected {
+  background-color: var(--background-accent);
+}
+
+.cdx-search-field,
+.cdx-search-field__icon,
+.cdx-search-field__input,
+.ce-popover-item:hover:not(.ce-popover-item--no-hover),
+.ce-conversion-tool:hover {
+  background-color: var(--background-secondary);
+}
+
+.ce-popover,
+.ce-conversion-toolbar,
+.ce-popover--opened,
+.ce-inline-toolbar {
+  border: none;
+}
+
+.ce-paragraph[data-placeholder]:empty:before {
+  color: var(--secondary)
+}
+
 @layer base {
   :root {
     --accent: #4059b3;
