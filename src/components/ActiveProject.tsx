@@ -1,8 +1,7 @@
 import { Key, useState } from "react";
 import { Tasks } from "./index";
 import { DisplayedProject } from "../types/types";
-import { deleteProject, getToken } from "../utils";
-import axios from "axios";
+import { deleteProject, renameProject } from "../utils";
 
 function ActiveProject({
   projects,
@@ -14,31 +13,7 @@ function ActiveProject({
   displayedProject: DisplayedProject;
 }) {
   const [showProjectMenu, setShowProjectMenu] = useState<boolean>(false);
-
   let timer: any;
-  async function renameProject(projectName: string, project: DisplayedProject) {
-    try {
-      const response = await axios.patch(
-        "api/rename-project/",
-        {
-          projectId: project?._id,
-          projectName,
-        },
-        {
-          headers: {
-            Authorization: getToken(),
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        const { data } = response.data;
-        setProjects(data);
-      }
-    } catch (error) {
-      setProjects(projects);
-    }
-  }
 
   return (
     <section
@@ -68,7 +43,12 @@ function ActiveProject({
                     onChange={(event) => {
                       clearTimeout(timer);
                       timer = setTimeout(() => {
-                        renameProject(event.target.value, displayedProject);
+                        renameProject(
+                          event.target.value,
+                          displayedProject,
+                          projects,
+                          setProjects
+                        );
                       }, 800);
                     }}
                     className='w-full text-sm placeholder:text-primary bg-transparent hover:bg-background-accent transition-colors duration-300 focus:outline-none border border-secondary rounded-md p-2'
