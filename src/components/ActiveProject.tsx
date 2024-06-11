@@ -1,16 +1,14 @@
-import { useState } from "react";
+import { Key, useState } from "react";
 import { Tasks } from "./index";
-import { User, DisplayedProject } from "../types/types";
-import { deleteProject } from "../utils";
+import { DisplayedProject } from "../types/types";
+import { deleteProject, getToken } from "../utils";
 import axios from "axios";
 
 function ActiveProject({
-  user,
   projects,
   setProjects,
   displayedProject,
 }: {
-  user: User;
   projects: Array<DisplayedProject>;
   setProjects: Function;
   displayedProject: DisplayedProject;
@@ -28,7 +26,7 @@ function ActiveProject({
         },
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: getToken(),
           },
         }
       );
@@ -82,7 +80,7 @@ function ActiveProject({
                 <div>
                   <button
                     onClick={async () => {
-                      await deleteProject(user, displayedProject).then(
+                      await deleteProject(displayedProject).then(
                         (newProjectsArray) => {
                           if (newProjectsArray.length > 0)
                             setProjects(newProjectsArray);

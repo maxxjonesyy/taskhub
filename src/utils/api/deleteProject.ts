@@ -1,8 +1,9 @@
-import { User, DisplayedProject } from "../../types/types";
+import { DisplayedProject } from "../../types/types";
 import renderAlert from "../renderAlert";
 import axios from "axios";
+import getToken from "../getToken";
 
-async function deleteProject(user: User, project: DisplayedProject) {
+async function deleteProject(project: DisplayedProject) {
   try {
     const response = await axios.post(
       "api/delete-project",
@@ -11,7 +12,7 @@ async function deleteProject(user: User, project: DisplayedProject) {
       },
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: getToken(),
         },
       }
     );

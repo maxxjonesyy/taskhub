@@ -1,6 +1,7 @@
 import axios from "axios";
 import renderAlert from "../renderAlert";
 import { User } from "../../types/types";
+import getToken from "../getToken";
 
 async function createProject(projectName: string, user: User) {
   try {
@@ -12,7 +13,7 @@ async function createProject(projectName: string, user: User) {
       },
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: getToken(),
         },
       }
     );
