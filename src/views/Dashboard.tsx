@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Navbar, WelcomeScreen, ActiveProject } from "../components";
+import { getToken } from "../utils";
 import { PulseLoader } from "react-spinners";
 import axios from "axios";
 
@@ -12,7 +13,7 @@ function Dashboard() {
     try {
       const response = await axios.get(`api/get-projects/${user.id}`, {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: getToken(),
         },
       });
 
@@ -42,7 +43,6 @@ function Dashboard() {
         <div className='flex-1 p-5'>
           {projects.length >= 1 ? (
             <ActiveProject
-              user={user}
               projects={projects}
               setProjects={setProjects}
               displayedProject={projects[0]}
