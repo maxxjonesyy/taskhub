@@ -99,7 +99,7 @@ function Tasks({ projectId }: { projectId: Key }) {
           .map((task: Task, index) => (
             <div
               key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md'>
+              className='flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
               <div className='inline-flex gap-3'>
                 <img
                   id='toggle-panel'
@@ -141,7 +141,7 @@ function Tasks({ projectId }: { projectId: Key }) {
           .map((task: Task, index) => (
             <div
               key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md'>
+              className='flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
               <div className='inline-flex gap-3'>
                 <img
                   id='toggle-panel'
@@ -184,7 +184,7 @@ function Tasks({ projectId }: { projectId: Key }) {
             <div
               onClick={() => setOpenedTask(task)}
               key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md'>
+              className='flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
               <div className='inline-flex gap-3'>
                 <img
                   id='toggle-panel'
