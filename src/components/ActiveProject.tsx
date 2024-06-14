@@ -89,7 +89,7 @@ function ActiveProject({
         </ul>
       </div>
 
-      <Tasks />
+      <Tasks projectId={displayedProject?._id as Key} />
     </section>
   );
 }

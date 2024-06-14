@@ -1,5 +1,6 @@
-import { useEffect } from "react";
-import { TaskObject } from "../types/types";
+import { useEffect, Key } from "react";
+import { Task } from "../types/types";
+import { editTask } from "../utils";
 import EditorJS from "@editorjs/editorjs";
 import List from "@editorjs/list";
 import Header from "@editorjs/header";
@@ -7,12 +8,34 @@ import Paragraph from "@editorjs/paragraph";
 import Checklist from "@editorjs/checklist";
 
 function Editorjs({
-  taskObject,
-  setTaskObject,
+  projectId,
+  tasks,
+  setTasks,
+  openedTask,
+  setOpenedTask,
 }: {
-  taskObject: TaskObject;
-  setTaskObject: Function;
+  projectId: Key;
+  tasks: Task[];
+  setTasks: Function;
+  openedTask: Task;
+  setOpenedTask: Function;
 }) {
+  const taskSidebar = document.getElementById("task-sidebar");
+
+  async function handleEditTask(data: string) {
+    const editedTask = await editTask(projectId, {
+      ...openedTask,
+      description: data,
+    });
+
+    if (editedTask) {
+      setTasks(
+        tasks.map((task) => (task._id === editedTask._id ? editedTask : task))
+      );
+      setOpenedTask(editedTask);
+    }
+  }
+
   useEffect(() => {
     const editor = new EditorJS({
       holder: "editorjs",
@@ -40,31 +63,26 @@ function Editorjs({
       },
 
       data: {
-        blocks: taskObject.description
-          ? JSON.parse(taskObject.description)
+        blocks: openedTask.description
+          ? JSON.parse(openedTask.description)
           : [],
       },
 
-      onChange: () => {
-        editor.save().then((outputData) => {
-          setTaskObject({
-            ...taskObject,
-            description: JSON.stringify(outputData.blocks),
-          });
+      onChange: async () => {
+        const data = await editor.save().then(async (outputData) => {
+          return JSON.stringify(outputData.blocks);
         });
+
+        if (!data) return;
+        handleEditTask(data);
       },
     });
 
     return () => {
       editor.destroy();
     };
-  }, []);
-  return (
-    <div
-      id='editorjs'
-      style={{ maxHeight: document.getElementById("editorjs")?.clientHeight }}
-      className='mt-5 overflow-y-scroll'></div>
-  );
+  }, [taskSidebar?.style.right]);
+  return <div id='editorjs' className='mt-5'></div>;
 }
 
 export default Editorjs;
