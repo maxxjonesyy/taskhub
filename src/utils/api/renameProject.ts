@@ -9,7 +9,7 @@ async function renameProject(
   setProjects: Function
 ) {
   try {
-    const response = await axios.patch(
+    const response = await axios.put(
       "api/rename-project/",
       {
         projectId: project?._id,
