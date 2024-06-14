@@ -17,12 +17,13 @@ export type Project = {
   __v: Number;
 };
 
-export type TaskObject = {
+export type Task = {
   name: string;
   priority: string;
   status: string;
-  date: Date | null;
-  description: string;
+  date: Date | undefined;
+  description: string | undefined;
+  _id: Key | undefined;
 };
 
 export type DisplayedProject = Project | undefined;
