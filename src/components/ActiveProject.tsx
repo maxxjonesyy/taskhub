@@ -1,46 +1,19 @@
-import { useState } from "react";
-import { TaskCard } from "./index";
-import { User, DisplayedProject } from "../types/types";
-import { deleteProject } from "../utils";
-import axios from "axios";
+import { Key, useState } from "react";
+import { Tasks } from "./index";
+import { DisplayedProject } from "../types/types";
+import { deleteProject, renameProject } from "../utils";
 
 function ActiveProject({
-  user,
   projects,
   setProjects,
   displayedProject,
 }: {
-  user: User;
   projects: Array<DisplayedProject>;
   setProjects: Function;
   displayedProject: DisplayedProject;
 }) {
   const [showProjectMenu, setShowProjectMenu] = useState<boolean>(false);
-
   let timer: any;
-  async function renameProject(projectName: string, project: DisplayedProject) {
-    try {
-      const response = await axios.patch(
-        "api/rename-project/",
-        {
-          projectId: project?._id,
-          projectName,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        const { data } = response.data;
-        setProjects(data);
-      }
-    } catch (error) {
-      setProjects(projects);
-    }
-  }
 
   return (
     <section
@@ -70,7 +43,12 @@ function ActiveProject({
                     onChange={(event) => {
                       clearTimeout(timer);
                       timer = setTimeout(() => {
-                        renameProject(event.target.value, displayedProject);
+                        renameProject(
+                          event.target.value,
+                          displayedProject,
+                          projects,
+                          setProjects
+                        );
                       }, 800);
                     }}
                     className='w-full text-sm placeholder:text-primary bg-transparent hover:bg-background-accent transition-colors duration-300 focus:outline-none border border-secondary rounded-md p-2'
@@ -82,7 +60,7 @@ function ActiveProject({
                 <div>
                   <button
                     onClick={async () => {
-                      await deleteProject(user, displayedProject).then(
+                      await deleteProject(displayedProject).then(
                         (newProjectsArray) => {
                           if (newProjectsArray.length > 0)
                             setProjects(newProjectsArray);
@@ -111,11 +89,7 @@ function ActiveProject({
         </ul>
       </div>
 
-      <div className='w-full flex flex-wrap gap-3'>
-        <TaskCard theme='notStarted' title='Not started' />
-        <TaskCard theme='inProgress' title='In progress' />
-        <TaskCard theme='done' title='Done' />
-      </div>
+      <Tasks projectId={displayedProject?._id as Key} />
     </section>
   );
 }

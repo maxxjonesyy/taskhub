@@ -13,7 +13,12 @@ const taskSchema = new mongoose.Schema({
 
   status: {
     type: String,
-    required: true,
+    required: false,
+  },
+
+  dueDate: {
+    type: Date,
+    required: false,
   },
 
   description: {

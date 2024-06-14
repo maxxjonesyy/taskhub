@@ -2,19 +2,28 @@ import { Key } from "react";
 
 export type User = {
   id: Key;
-  email: String;
-  token: String;
-  username: String;
+  email: string;
+  token: string;
+  username: string;
 };
 
 export type Project = {
   createdAt: Date;
-  createdBy: String;
-  name: String;
+  createdBy: string;
+  name: string;
   _id: Key;
-  tasks: Array<String>;
+  tasks: Array<string>;
   updatedAt: Date;
   __v: Number;
+};
+
+export type Task = {
+  name: string;
+  priority: string;
+  status: string;
+  date: Date | undefined;
+  description: string | undefined;
+  _id: Key | undefined;
 };
 
 export type DisplayedProject = Project | undefined;

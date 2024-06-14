@@ -1,6 +1,7 @@
 import axios from "axios";
 import renderAlert from "../renderAlert";
 import { User } from "../../types/types";
+import getToken from "../getToken";
 
 async function deleteAccount(user: User) {
   try {
@@ -11,7 +12,7 @@ async function deleteAccount(user: User) {
       },
       {
         headers: {
-          Authorization: `Bearer ${user.token}`,
+          Authorization: getToken(),
         },
       }
     );
