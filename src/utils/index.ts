@@ -8,7 +8,9 @@ import createProject from "./api/createProject";
 import renameProject from "./api/renameProject";
 import deleteAccount from "./api/deleteAccount";
 import deleteProject from "./api/deleteProject";
+import getTasks from "./api/getTasks";
 import createTask from "./api/createTask";
+import editTask from "./api/editTask";
 
 export {
   renderAlert,
@@ -19,5 +21,7 @@ export {
   renameProject,
   deleteAccount,
   deleteProject,
+  getTasks,
   createTask,
+  editTask,
 };
