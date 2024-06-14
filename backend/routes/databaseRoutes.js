@@ -8,6 +8,7 @@ const {
   createTask,
   editTask,
   getTasks,
+  deleteTask,
 } = require("../controllers/databaseController");
 
 router.post("/api/create-project", createProject);
@@ -17,5 +18,6 @@ router.post("/api/delete-project", deleteProject);
 router.post("/api/create-task", createTask);
 router.put("/api/edit-task", editTask);
 router.get("/api/get-tasks/:projectId", getTasks);
+router.post("/api/delete-task", deleteTask);
 
 module.exports = router;

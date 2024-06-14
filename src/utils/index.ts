@@ -11,6 +11,7 @@ import deleteProject from "./api/deleteProject";
 import getTasks from "./api/getTasks";
 import createTask from "./api/createTask";
 import editTask from "./api/editTask";
+import deleteTask from "./api/deleteTask";
 
 export {
   renderAlert,
@@ -24,4 +25,5 @@ export {
   getTasks,
   createTask,
   editTask,
+  deleteTask,
 };

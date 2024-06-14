@@ -203,6 +203,35 @@ const getTasks = async (req, res) => {
   }
 };
 
+const deleteTask = async (req, res) => {
+  try {
+    const { projectId, task } = req.body;
+
+    if (!projectId | !task._id) {
+      return res
+        .status(400)
+        .json({ error: "Error deleting task, project or task id missing" });
+    }
+
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(400).json({ error: "Project not found" });
+    }
+
+    const updatedTasks = project.tasks.filter(
+      (t) => t._id.toString() !== task._id
+    );
+
+    project.tasks = updatedTasks;
+    await project.save();
+
+    res.status(200).json({ data: updatedTasks });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createProject,
   getProjects,
@@ -211,4 +240,5 @@ module.exports = {
   createTask,
   editTask,
   getTasks,
+  deleteTask,
 };
