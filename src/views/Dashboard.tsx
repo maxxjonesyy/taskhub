@@ -41,17 +41,17 @@ function Dashboard() {
         </div>
       ) : (
         <div className='flex-1 p-5'>
-          {projects.length >= 1 ? (
-            <ActiveProject
-              projects={projects}
-              setProjects={setProjects}
-              displayedProject={projects[0]}
-            />
-          ) : (
+          {projects.length === 0 ? (
             <WelcomeScreen
               user={user}
               projects={projects}
               setProjects={setProjects}
+            />
+          ) : (
+            <ActiveProject
+              projects={projects}
+              setProjects={setProjects}
+              displayedProject={projects[0]}
             />
           )}
         </div>
