@@ -26,4 +26,4 @@ export type Task = {
   _id: Key | undefined;
 };
 
-export type DisplayedProject = Project | undefined;
+export type ActiveProjectType = Project | undefined;

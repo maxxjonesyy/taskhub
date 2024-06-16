@@ -1,10 +1,13 @@
 import { Key, useEffect, useRef, useState } from "react";
-import { Task } from "../types/types";
+import { Task, ActiveProjectType } from "../types/types";
 import { TaskPanel } from "./index";
 import { getTasks, createTask, deleteTask } from "../utils";
 import { warningAlert } from "../utils/index";
 
-function Tasks({ projectId }: { projectId: Key }) {
+interface TasksProps {
+  activeProject: ActiveProjectType;
+}
+function Tasks({ activeProject }: TasksProps) {
   const taskPanelRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -42,13 +45,15 @@ function Tasks({ projectId }: { projectId: Key }) {
   }
 
   async function handleCreateTask(status: string) {
-    const newTask = await createTask(projectId, {
-      ...blankTask,
-      status: status,
-    });
-    setOpenedTask(newTask);
-    setTasks([...tasks, newTask]);
-    showTaskPanel();
+    if (activeProject) {
+      const newTask = await createTask(activeProject?._id, {
+        ...blankTask,
+        status: status,
+      });
+      setOpenedTask(newTask);
+      setTasks([...tasks, newTask]);
+      showTaskPanel();
+    }
   }
 
   function handleClickedTask(task: Task) {
@@ -67,8 +72,10 @@ function Tasks({ projectId }: { projectId: Key }) {
   }
 
   useEffect(() => {
-    getTasks(projectId, setTasks);
-  }, []);
+    if (activeProject) {
+      getTasks(activeProject._id, setTasks);
+    }
+  }, [activeProject]);
 
   useEffect(() => {
     document.addEventListener("click", hideTaskPanel);
@@ -110,7 +117,9 @@ function Tasks({ projectId }: { projectId: Key }) {
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
               <img
-                onClick={() => handleDeleteTask(projectId, task)}
+                onClick={() => {
+                  if (activeProject) handleDeleteTask(activeProject._id, task);
+                }}
                 className='pl-2 hover:cursor-pointer'
                 src='./src/assets/icons/delete.svg'
                 alt='delete'
@@ -152,7 +161,9 @@ function Tasks({ projectId }: { projectId: Key }) {
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
               <img
-                onClick={() => handleDeleteTask(projectId, task)}
+                onClick={() => {
+                  if (activeProject) handleDeleteTask(activeProject._id, task);
+                }}
                 className='pl-2 hover:cursor-pointer'
                 src='./src/assets/icons/delete.svg'
                 alt='delete'
@@ -195,7 +206,9 @@ function Tasks({ projectId }: { projectId: Key }) {
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
               <img
-                onClick={() => handleDeleteTask(projectId, task)}
+                onClick={() => {
+                  if (activeProject) handleDeleteTask(activeProject._id, task);
+                }}
                 className='pl-2 hover:cursor-pointer'
                 src='./src/assets/icons/delete.svg'
                 alt='delete'
@@ -205,7 +218,7 @@ function Tasks({ projectId }: { projectId: Key }) {
       </div>
 
       <TaskPanel
-        projectId={projectId}
+        activeProject={activeProject}
         tasks={tasks}
         setTasks={setTasks}
         openedTask={openedTask}

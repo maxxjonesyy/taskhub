@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { PulseLoader } from "react-spinners";
-
 import { Project, User } from "../types/types";
 import { createProject, deleteAccount } from "../utils";
 import { warningAlert } from "../utils/";
@@ -10,9 +9,15 @@ interface NavbarProps {
   user: User;
   projects: Array<Project>;
   setProjects: Function;
+  setActiveProject: Function;
 }
 
-function Navbar({ user, projects, setProjects }: NavbarProps) {
+function Navbar({
+  user,
+  projects,
+  setProjects,
+  setActiveProject,
+}: NavbarProps) {
   const [menu, setMenu] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -27,6 +32,7 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
 
       if (data) {
         setProjects([data.project, ...projects]);
+        setActiveProject(data.project);
       }
       if (error) {
         console.error(error);
@@ -143,16 +149,12 @@ function Navbar({ user, projects, setProjects }: NavbarProps) {
                 return (
                   <li
                     onClick={() => {
-                      const updatedProjects = [
-                        project,
-                        ...projects.filter((p) => p._id !== project._id),
-                      ];
-                      setProjects(updatedProjects);
+                      setActiveProject(project);
                       setMenu("");
                     }}
                     key={project._id}
                     className='mt-5 p-2 transition-colors cursor-pointer hover:bg-accent rounded-md'>
-                    <span className=''>{project.name}</span>
+                    <span className='text-sm'>{project.name}</span>
                   </li>
                 );
               })

@@ -1,34 +1,26 @@
 import axios from "axios";
 import getToken from "../getToken";
-import { DisplayedProject } from "../../types/types";
+import { ActiveProjectType } from "../../types/types";
 
 async function renameProject(
   projectName: string,
-  project: DisplayedProject,
-  projects: Array<DisplayedProject>,
-  setProjects: Function
+  activeProject: ActiveProjectType
 ) {
-  try {
-    const response = await axios.put(
-      "api/rename-project/",
-      {
-        projectId: project?._id,
-        projectName,
+  const response = await axios.put(
+    "api/rename-project/",
+    {
+      projectId: activeProject?._id,
+      projectName,
+    },
+    {
+      headers: {
+        Authorization: getToken(),
       },
-      {
-        headers: {
-          Authorization: getToken(),
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      const { data } = response.data;
-      setProjects(data);
     }
-  } catch (error) {
-    setProjects(projects);
-  }
+  );
+
+  const { data } = response.data;
+  return data;
 }
 
 export default renameProject;

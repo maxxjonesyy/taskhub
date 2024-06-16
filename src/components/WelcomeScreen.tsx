@@ -3,15 +3,19 @@ import { User } from "../types/types";
 import { createProject } from "../utils";
 import { PulseLoader } from "react-spinners";
 
+interface WelcomeScreenProps {
+  user: User;
+  projects: Array<Object>;
+  setProjects: Function;
+  setActiveProject: Function;
+}
+
 function WelcomeScreen({
   user,
   projects,
   setProjects,
-}: {
-  user: User;
-  projects: Array<Object>;
-  setProjects: Function;
-}) {
+  setActiveProject,
+}: WelcomeScreenProps) {
   const [projectName, setProjectName] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,6 +27,7 @@ function WelcomeScreen({
 
       if (data) {
         setProjects([data.project, ...projects]);
+        setActiveProject(data.project);
       }
       if (error) {
         console.error(error);

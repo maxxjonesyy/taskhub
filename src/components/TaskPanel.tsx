@@ -1,31 +1,35 @@
-import { LegacyRef, Key } from "react";
-import { Task } from "../types/types";
+import { LegacyRef } from "react";
+import { Task, ActiveProjectType } from "../types/types";
 import { Editorjs } from "./index";
 import { editTask } from "../utils";
 
-function TaskPanel({
-  projectId,
-  tasks,
-  setTasks,
-  openedTask,
-  setOpenedTask,
-  taskPanelRef,
-}: {
-  projectId: Key;
+interface TaskPanelProps {
+  activeProject: ActiveProjectType;
   tasks: Task[];
   setTasks: Function;
   openedTask: Task;
   setOpenedTask: Function;
   taskPanelRef: LegacyRef<HTMLDivElement>;
-}) {
-  async function handleEditTask() {
-    const editedTask = await editTask(projectId, openedTask);
+}
 
-    if (editedTask) {
-      setTasks(
-        tasks.map((task) => (task._id === editedTask._id ? editedTask : task))
-      );
-      setOpenedTask(editedTask);
+function TaskPanel({
+  activeProject,
+  tasks,
+  setTasks,
+  openedTask,
+  setOpenedTask,
+  taskPanelRef,
+}: TaskPanelProps) {
+  async function handleEditTask() {
+    if (activeProject) {
+      const editedTask = await editTask(activeProject?._id, openedTask);
+
+      if (editedTask) {
+        setTasks(
+          tasks.map((task) => (task._id === editedTask._id ? editedTask : task))
+        );
+        setOpenedTask(editedTask);
+      }
     }
   }
 
@@ -98,7 +102,7 @@ function TaskPanel({
           </div>
 
           <Editorjs
-            projectId={projectId}
+            activeProject={activeProject}
             tasks={tasks}
             setTasks={setTasks}
             openedTask={openedTask}
