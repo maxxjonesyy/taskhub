@@ -61,10 +61,7 @@ function ActiveProject({
                   <button
                     onClick={async () => {
                       await deleteProject(displayedProject).then(
-                        (newProjectsArray) => {
-                          if (newProjectsArray.length > 0)
-                            setProjects(newProjectsArray);
-                        }
+                        (newProjectsArray) => setProjects(newProjectsArray)
                       );
                     }}
                     className='mt-5 w-full text-sm bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
