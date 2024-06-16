@@ -55,7 +55,7 @@ const deleteProject = async (req, res) => {
       return res.status(400).json({ error: "Error deleting project" });
     }
 
-    await Project.deleteOne({ _id: projectId });
+    await project.deleteOne();
     const newProjectsArray = await Project.find({
       createdBy: project.createdBy,
     });
@@ -115,11 +115,7 @@ const renameProject = async (req, res) => {
 
     project.name = projectName;
     await project.save();
-
-    const newProjectsArray = await Project.find({
-      createdBy: project.createdBy,
-    });
-    res.status(200).json({ data: newProjectsArray });
+    res.status(200).json({ data: project });
   } catch (error) {
     res.status(500).json({ data: Project.name });
   }
