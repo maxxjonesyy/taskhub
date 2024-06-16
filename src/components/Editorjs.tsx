@@ -81,7 +81,8 @@ function Editorjs({
     return () => {
       editor.destroy();
     };
-  }, [taskSidebar?.style.right]);
+  }, [taskSidebar?.style.right, openedTask.description]);
+
   return <div id='editorjs' className='mt-5'></div>;
 }
 
