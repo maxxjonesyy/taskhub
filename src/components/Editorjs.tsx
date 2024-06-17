@@ -7,7 +7,7 @@ import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
 import Checklist from "@editorjs/checklist";
 
-interface EditorjsProps {
+interface Props {
   activeProject: ActiveProjectType;
   tasks: Task[];
   setTasks: Function;
@@ -21,7 +21,7 @@ function Editorjs({
   setTasks,
   openedTask,
   setOpenedTask,
-}: EditorjsProps) {
+}: Props) {
   const taskSidebar = document.getElementById("task-sidebar");
 
   async function handleEditTask(data: string) {

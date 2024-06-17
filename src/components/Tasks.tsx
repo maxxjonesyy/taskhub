@@ -4,10 +4,10 @@ import { TaskPanel } from "./index";
 import { getTasks, createTask, deleteTask } from "../utils";
 import { warningAlert } from "../utils/index";
 
-interface TasksProps {
+interface Props {
   activeProject: ActiveProjectType;
 }
-function Tasks({ activeProject }: TasksProps) {
+function Tasks({ activeProject }: Props) {
   const taskPanelRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
 

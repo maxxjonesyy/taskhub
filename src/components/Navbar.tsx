@@ -5,19 +5,14 @@ import { Project, User } from "../types/types";
 import { createProject, deleteAccount } from "../utils";
 import { warningAlert } from "../utils/";
 
-interface NavbarProps {
+interface Props {
   user: User;
   projects: Array<Project>;
   setProjects: Function;
   setActiveProject: Function;
 }
 
-function Navbar({
-  user,
-  projects,
-  setProjects,
-  setActiveProject,
-}: NavbarProps) {
+function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
   const [menu, setMenu] = useState<string>("");
   const [projectName, setProjectName] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);

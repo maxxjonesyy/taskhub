@@ -3,7 +3,7 @@ import { Task, ActiveProjectType } from "../types/types";
 import { Editorjs } from "./index";
 import { editTask } from "../utils";
 
-interface TaskPanelProps {
+interface Props {
   activeProject: ActiveProjectType;
   tasks: Task[];
   setTasks: Function;
@@ -19,7 +19,7 @@ function TaskPanel({
   openedTask,
   setOpenedTask,
   taskPanelRef,
-}: TaskPanelProps) {
+}: Props) {
   async function handleEditTask() {
     if (activeProject) {
       const editedTask = await editTask(activeProject?._id, openedTask);

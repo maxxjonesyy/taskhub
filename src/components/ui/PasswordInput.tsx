@@ -1,14 +1,12 @@
 import { useState } from "react";
 
-function PasswordInput({
-  password,
-  setPassword,
-  placeholder,
-}: {
+interface Props {
   password: string;
   setPassword: Function;
   placeholder: string;
-}) {
+}
+
+function PasswordInput({ password, setPassword, placeholder }: Props) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (

@@ -4,7 +4,11 @@ import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
 import { PasswordInput } from "../components/index";
 
-function Register({ setIsLogin }: { setIsLogin: Function }) {
+interface Props {
+  setIsLogin: Function;
+}
+
+function Register({ setIsLogin }: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);

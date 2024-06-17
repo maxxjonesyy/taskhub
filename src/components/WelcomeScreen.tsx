@@ -3,7 +3,7 @@ import { User } from "../types/types";
 import { createProject } from "../utils";
 import { PulseLoader } from "react-spinners";
 
-interface WelcomeScreenProps {
+interface Props {
   user: User;
   projects: Array<Object>;
   setProjects: Function;
@@ -15,7 +15,7 @@ function WelcomeScreen({
   projects,
   setProjects,
   setActiveProject,
-}: WelcomeScreenProps) {
+}: Props) {
   const [projectName, setProjectName] = useState("");
   const [loading, setLoading] = useState(false);
 

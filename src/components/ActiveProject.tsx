@@ -3,7 +3,7 @@ import { Tasks } from "./index";
 import { Project, ActiveProjectType } from "../types/types";
 import { deleteProject, renameProject, renderAlert } from "../utils";
 
-interface ActiveProjectProps {
+interface Props {
   projects: Array<Project>;
   setProjects: Function;
   activeProject: ActiveProjectType;
@@ -14,7 +14,7 @@ function ActiveProject({
   setProjects,
   activeProject,
   setActiveProject,
-}: ActiveProjectProps) {
+}: Props) {
   const [showProjectMenu, setShowProjectMenu] = useState<boolean>(false);
   let timer: any;
 

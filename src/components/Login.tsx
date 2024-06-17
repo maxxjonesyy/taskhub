@@ -1,13 +1,16 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-
 import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
 import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
 import { PasswordInput } from "../components/index";
 
-function Login({ setIsLogin }: { setIsLogin: Function }) {
+interface Props {
+  setIsLogin: Function;
+}
+
+function Login({ setIsLogin }: Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordComponent, setPasswordComponent] = useState<boolean>(false);
