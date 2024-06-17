@@ -1,9 +1,9 @@
-import { DisplayedProject } from "../../types/types";
+import { ActiveProjectType } from "../../types/types";
 import renderAlert from "../renderAlert";
 import axios from "axios";
 import getToken from "../getToken";
 
-async function deleteProject(project: DisplayedProject) {
+async function deleteProject(project: ActiveProjectType) {
   try {
     const response = await axios.post(
       "api/delete-project",
