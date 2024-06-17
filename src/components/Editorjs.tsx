@@ -27,15 +27,15 @@ function Editorjs({
   async function handleEditTask(data: string) {
     if (activeProject) {
       const editedTask = await editTask(activeProject._id, {
-      ...openedTask,
-      description: data,
-    });
+        ...openedTask,
+        description: data,
+      });
 
-    if (editedTask) {
-      setTasks(
-        tasks.map((task) => (task._id === editedTask._id ? editedTask : task))
-      );
-      setOpenedTask(editedTask);
+      if (editedTask) {
+        setTasks(
+          tasks.map((task) => (task._id === editedTask._id ? editedTask : task))
+        );
+        setOpenedTask(editedTask);
       }
     }
   }
@@ -77,13 +77,18 @@ function Editorjs({
           return JSON.stringify(outputData.blocks);
         });
 
-        if (!data) return;
+        if (!data) {
+          return;
+        }
+
         handleEditTask(data);
       },
     });
 
     return () => {
-      editor.destroy();
+      if (taskSidebar) {
+        editor.destroy();
+      }
     };
   }, [taskSidebar?.style.right, openedTask.description]);
 
