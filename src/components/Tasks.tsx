@@ -118,7 +118,9 @@ function Tasks({ activeProject }: Props) {
               </div>
               <img
                 onClick={() => {
-                  if (activeProject) handleDeleteTask(activeProject._id, task);
+                  if (activeProject) {
+                    handleDeleteTask(activeProject._id, task);
+                  }
                 }}
                 className='pl-2 hover:cursor-pointer'
                 src='./src/assets/icons/delete.svg'
