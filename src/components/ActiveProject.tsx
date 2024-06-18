@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tasks } from "./index";
 import { Project, ActiveProjectType } from "../types/types";
 import { deleteProject, renameProject, renderAlert } from "../utils";
+import { warningAlert } from "../utils";
 
 interface Props {
   projects: Array<Project>;
@@ -72,15 +73,20 @@ function ActiveProject({
                 </div>
                 <div>
                   <button
-                    onClick={async () => {
-                      const newProjectsArray = await deleteProject(
-                        activeProject
-                      );
+                    onClick={() => {
+                      warningAlert(
+                        `Are you sure you want to delete this project`,
+                        async () => {
+                          const newProjectsArray = await deleteProject(
+                            activeProject
+                          );
 
-                      if (newProjectsArray) {
-                        setProjects(newProjectsArray);
-                        setActiveProject(newProjectsArray[0]);
-                      }
+                          if (newProjectsArray) {
+                            setProjects(newProjectsArray);
+                            setActiveProject(newProjectsArray[0]);
+                          }
+                        }
+                      );
                     }}
                     className='mt-5 w-full text-sm bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
                     Delete {activeProject?.name}
