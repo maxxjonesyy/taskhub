@@ -85,7 +85,7 @@
   }
 
   .task-input {
-    @apply w-full p-2 bg-transparent text-secondary transition-colors duration-300 rounded-md hover:bg-background-accent hover:cursor-pointer;
+    @apply w-full p-2 text-secondary rounded-md bg-background-accent hover:cursor-pointer;
   }
 }
 

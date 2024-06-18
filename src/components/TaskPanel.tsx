@@ -39,19 +39,23 @@ function TaskPanel({
       ref={taskPanelRef}
       className='fixed h-full w-2/3 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
       <form onBlur={handleEditTask}>
-        <input
-          className='font-bold text-3xl w-full placeholder:text-primary focus:outline-none bg-transparent'
-          type='text'
-          value={openedTask.name}
-          onChange={(e) =>
-            setOpenedTask({ ...openedTask, name: e.target.value })
-          }
-          placeholder={openedTask.name || "Enter a task name"}
-        />
+        <div className='inline-flex gap-2 w-full'>
+          <img src='./src/assets/icons/header.svg' alt='some image' />
+          <input
+            className='font-bold text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent'
+            type='text'
+            value={openedTask.name}
+            onChange={(e) =>
+              setOpenedTask({ ...openedTask, name: e.target.value })
+            }
+            placeholder={openedTask.name || "Enter a task name"}
+          />
+        </div>
 
         <div className='flex flex-col gap-3'>
-          <div className='inline-flex items-center gap-5 mt-5'>
-            <label htmlFor='priority' className='w-20'>
+          <div className='inline-flex items-center gap-2 mt-5'>
+            <img src='./src/assets/icons/priority.svg' alt='priority' />
+            <label htmlFor='priority' className='w-20 text-secondary'>
               Priority
             </label>
             <select
@@ -68,8 +72,9 @@ function TaskPanel({
             </select>
           </div>
 
-          <div className='inline-flex items-center gap-5'>
-            <label htmlFor='status' className='w-20'>
+          <div className='inline-flex items-center gap-2'>
+            <img src='./src/assets/icons/status.svg' alt='status' />
+            <label htmlFor='status' className='w-20 text-secondary'>
               Status
             </label>
             <select
@@ -86,8 +91,9 @@ function TaskPanel({
             </select>
           </div>
 
-          <div className='inline-flex items-center gap-5'>
-            <label htmlFor='date' className='w-20'>
+          <div className='inline-flex items-center gap-2'>
+            <img src='./src/assets/icons/date.svg' alt='date' />
+            <label htmlFor='date' className='w-20 text-secondary'>
               Date
             </label>
             <input
