@@ -15,7 +15,7 @@ function Tasks({ activeProject }: Props) {
     name: "Task",
     priority: "low",
     status: "notStarted",
-    date: undefined,
+    dueDate: undefined,
     description: undefined,
     _id: undefined,
   };

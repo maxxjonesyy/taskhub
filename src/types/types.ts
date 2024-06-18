@@ -21,7 +21,7 @@ export type Task = {
   name: string;
   priority: string;
   status: string;
-  date: Date | undefined;
+  dueDate: Date | undefined;
   description: string | undefined;
   _id: Key | undefined;
 };

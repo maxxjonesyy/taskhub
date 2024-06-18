@@ -95,9 +95,17 @@ function TaskPanel({
               name='date'
               id='date'
               className='task-input'
-              onChange={(e) =>
-                setOpenedTask({ ...openedTask, date: e.target.value })
+              value={
+                openedTask.dueDate
+                  ? new Date(openedTask.dueDate).toISOString().split("T")[0]
+                  : ""
               }
+              onChange={(e) => {
+                setOpenedTask({
+                  ...openedTask,
+                  dueDate: e.target.value,
+                });
+              }}
             />
           </div>
 
