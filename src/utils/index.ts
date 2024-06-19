@@ -11,6 +11,7 @@ import deleteProject from "./api/deleteProject";
 import getTasks from "./api/getTasks";
 import createTask from "./api/createTask";
 import editTask from "./api/editTask";
+import searchTasks from "./api/searchTasks";
 import deleteTask from "./api/deleteTask";
 
 export {
@@ -25,5 +26,6 @@ export {
   getTasks,
   createTask,
   editTask,
+  searchTasks,
   deleteTask,
 };

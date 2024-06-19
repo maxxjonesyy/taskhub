@@ -5,9 +5,10 @@ import { getTasks, createTask, deleteTask } from "../utils";
 import { warningAlert } from "../utils/index";
 
 interface Props {
+  queryTasks: Task[];
   activeProject: ActiveProjectType;
 }
-function Tasks({ activeProject }: Props) {
+function Tasks({ queryTasks, activeProject }: Props) {
   const taskPanelRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
 
@@ -73,7 +74,9 @@ function Tasks({ activeProject }: Props) {
 
   useEffect(() => {
     if (activeProject) {
-      getTasks(activeProject._id, setTasks);
+      getTasks(activeProject._id).then((tasks) => {
+        setTasks(tasks);
+      });
     }
   }, [activeProject]);
 
@@ -81,6 +84,8 @@ function Tasks({ activeProject }: Props) {
     document.addEventListener("click", hideTaskPanel);
     return () => document.removeEventListener("click", hideTaskPanel);
   }, []);
+
+  const displayTasks = queryTasks.length > 0 ? queryTasks : tasks;
 
   return (
     <section className='w-full flex flex-wrap gap-3'>
@@ -101,7 +106,7 @@ function Tasks({ activeProject }: Props) {
             Task
           </button>
         </div>
-        {tasks
+        {displayTasks
           .filter((task: Task) => task.status === "notStarted")
           .map((task: Task, index) => (
             <div
@@ -147,7 +152,7 @@ function Tasks({ activeProject }: Props) {
             Task
           </button>
         </div>
-        {tasks
+        {displayTasks
           .filter((task: Task) => task.status === "inProgress")
           .map((task: Task, index) => (
             <div
@@ -191,7 +196,7 @@ function Tasks({ activeProject }: Props) {
             Task
           </button>
         </div>
-        {tasks
+        {displayTasks
           .filter((task: Task) => task.status === "done")
           .map((task: Task, index) => (
             <div

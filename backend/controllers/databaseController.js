@@ -199,6 +199,29 @@ const getTasks = async (req, res) => {
   }
 };
 
+const searchTasks = async (req, res) => {
+  try {
+    const { projectId, query } = req.params;
+    const project = await Project.findById(projectId);
+
+    if (!project) {
+      return res.status(400).json({ error: "Project not found" });
+    }
+
+    if (!query) {
+      return res.status(400).json({ error: "Query not found" });
+    }
+
+    const queriedTasks = project.tasks.filter((task) =>
+      task.name.toLowerCase().includes(query.toLowerCase())
+    );
+
+    res.status(200).json({ queriedTasks });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const deleteTask = async (req, res) => {
   try {
     const { projectId, task } = req.body;
@@ -236,5 +259,6 @@ module.exports = {
   createTask,
   editTask,
   getTasks,
+  searchTasks,
   deleteTask,
 };

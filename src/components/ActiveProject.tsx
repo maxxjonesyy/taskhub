@@ -1,8 +1,15 @@
 import { useState } from "react";
 import { Tasks } from "./index";
-import { Project, ActiveProjectType } from "../types/types";
-import { deleteProject, renameProject, renderAlert } from "../utils";
-import { warningAlert } from "../utils";
+import { Project, ActiveProjectType, Task } from "../types/types";
+import { PulseLoader } from "react-spinners";
+
+import {
+  deleteProject,
+  renameProject,
+  renderAlert,
+  warningAlert,
+  searchTasks,
+} from "../utils";
 
 interface Props {
   projects: Array<Project>;
@@ -17,7 +24,11 @@ function ActiveProject({
   setActiveProject,
 }: Props) {
   const [showProjectMenu, setShowProjectMenu] = useState<boolean>(false);
-  let timer: any;
+  const [queryTasks, setQueryTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  let renameTimer: any;
+  let queryTimer: any;
 
   return (
     <section
@@ -31,12 +42,18 @@ function ActiveProject({
       <div className='w-full md:max-w-[1920px] border-b-2 border-background-secondary pb-2'>
         <ul className='relative bottom-[1px]'>
           <li className='float-end'>
-            <img
-              onClick={() => setShowProjectMenu(!showProjectMenu)}
-              className='cursor-pointer'
-              src='src/assets/icons/dots.svg'
-              alt='settings'
-            />
+            {isLoading ? (
+              <div className='relative bottom-[2px]'>
+                <PulseLoader size={6} color='#ffffff' />
+              </div>
+            ) : (
+              <img
+                onClick={() => setShowProjectMenu(!showProjectMenu)}
+                className='relative bottom-[2px] cursor-pointer'
+                src='src/assets/icons/dots.svg'
+                alt='settings'
+              />
+            )}
 
             {showProjectMenu && (
               <aside
@@ -45,8 +62,8 @@ function ActiveProject({
                 <div className='w-full inline-flex justify-between gap-2'>
                   <input
                     onChange={(event) => {
-                      clearTimeout(timer);
-                      timer = setTimeout(async () => {
+                      clearTimeout(renameTimer);
+                      renameTimer = setTimeout(async () => {
                         const newProject = await renameProject(
                           event.target.value,
                           activeProject
@@ -101,7 +118,28 @@ function ActiveProject({
               src='src/assets/icons/search.svg'
               alt='search tasks'
             />
+
             <input
+              onChange={(event) => {
+                clearTimeout(queryTimer);
+                setIsLoading(true);
+                queryTimer = setTimeout(async () => {
+                  if (activeProject) {
+                    const queriedTasks = await searchTasks(
+                      activeProject._id,
+                      event.target.value
+                    );
+                    if (!queriedTasks) {
+                      setQueryTasks([]);
+                      setIsLoading(false);
+                      return;
+                    }
+
+                    setQueryTasks(queriedTasks);
+                    setIsLoading(false);
+                  }
+                }, 800);
+              }}
               className='w-32 pl-2 bg-transparent text-sm placeholder:text-sm focus:outline-none'
               type='text'
               placeholder='Search tasks...'
@@ -110,7 +148,7 @@ function ActiveProject({
         </ul>
       </div>
 
-      <Tasks activeProject={activeProject} />
+      <Tasks queryTasks={queryTasks} activeProject={activeProject} />
     </section>
   );
 }

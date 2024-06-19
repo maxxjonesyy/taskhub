@@ -2,7 +2,7 @@ import { Key } from "react";
 import { getToken, renderAlert } from "../index";
 import axios from "axios";
 
-async function getTasks(projectId: Key, setTasks: Function) {
+async function getTasks(projectId: Key) {
   const response = await axios.get(`api/get-tasks/${projectId}`, {
     headers: {
       Authorization: getToken(),
@@ -16,7 +16,7 @@ async function getTasks(projectId: Key, setTasks: Function) {
   }
 
   if (data) {
-    setTasks(data);
+    return data;
   }
 }
 export default getTasks;
