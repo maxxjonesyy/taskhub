@@ -37,12 +37,12 @@ function TaskPanel({
     <aside
       id='task-sidebar'
       ref={taskPanelRef}
-      className='fixed h-full w-2/3 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
+      className='fixed h-full w-3/4 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
       <form onBlur={handleEditTask}>
         <div className='inline-flex gap-2 w-full'>
           <img src='./src/assets/icons/header.svg' alt='some image' />
           <input
-            className='font-bold text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent'
+            className='font-bold text-2xl md:text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent'
             type='text'
             value={openedTask.name}
             onChange={(e) =>
@@ -52,7 +52,7 @@ function TaskPanel({
           />
         </div>
 
-        <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-3 text-sm md:text-base'>
           <div className='inline-flex items-center gap-2 mt-5'>
             <img src='./src/assets/icons/priority.svg' alt='priority' />
             <label htmlFor='priority' className='w-20 text-secondary'>
