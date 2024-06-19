@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { PulseLoader } from "react-spinners";
 import { Project, User } from "../types/types";
-import { createProject, deleteAccount } from "../utils";
-import { warningAlert } from "../utils/";
+import { createProject, deleteAccount, warningAlert } from "../utils";
 
 interface Props {
   user: User;

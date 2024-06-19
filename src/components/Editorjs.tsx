@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Task, ActiveProjectType } from "../types/types";
 import { editTask } from "../utils";
+
 import EditorJS from "@editorjs/editorjs";
 import List from "@editorjs/list";
 import Header from "@editorjs/header";

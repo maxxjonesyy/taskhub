@@ -1,8 +1,7 @@
 import { Key, useEffect, useRef, useState } from "react";
-import { Task, ActiveProjectType } from "../types/types";
 import { TaskPanel } from "./index";
-import { getTasks, createTask, deleteTask } from "../utils";
-import { warningAlert } from "../utils/index";
+import { Task, ActiveProjectType } from "../types/types";
+import { getTasks, createTask, deleteTask, warningAlert } from "../utils";
 
 interface Props {
   queryTasks: Task[];

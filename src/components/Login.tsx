@@ -1,10 +1,11 @@
 import { useState, useContext } from "react";
-import axios from "axios";
+import { PasswordInput } from "../components/index";
 import { ForgotPassword } from "./index";
 import { AuthContext } from "../context/AuthContext";
 import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
-import { PasswordInput } from "../components/index";
+
+import axios from "axios";
 
 interface Props {
   setIsLogin: Function;
