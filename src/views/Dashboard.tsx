@@ -24,7 +24,7 @@ function Dashboard() {
         setActiveProject(response.data.projects[0]);
       }
     } catch (error: any) {
-      console.error(error.response.data.error);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ function Dashboard() {
         </div>
       ) : (
         <div className='flex-1 p-5'>
-          {projects.length === 0 ? (
+          {projects && projects.length === 0 ? (
             <WelcomeScreen
               user={user}
               projects={projects}

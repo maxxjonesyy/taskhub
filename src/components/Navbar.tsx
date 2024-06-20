@@ -139,7 +139,7 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
                 Projects
               </h1>
             </li>
-            {projects.length > 0 ? (
+            {projects && projects.length > 0 ? (
               projects.map((project: Project) => {
                 return (
                   <li
