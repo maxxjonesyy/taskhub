@@ -28,6 +28,13 @@ const passwordCheck = (req, res, next) => {
 
 const verifyAccessToken = (req, res, next) => {
   const { authorization } = req.headers;
+
+  if (!authorization) {
+    return res
+      .status(401)
+      .json({ error: "No access token found, please login again" });
+  }
+
   const token = authorization.split(" ")[1];
 
   if (!token) {
