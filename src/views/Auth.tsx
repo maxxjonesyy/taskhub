@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Login, Register } from "../components/index";
+import { logo } from "../assets/index";
 
 function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -9,7 +10,7 @@ function Auth() {
       <img
         className='mx-auto mb-20'
         width={300}
-        src='src/assets/logo.svg'
+        src={logo}
         alt='Taskhub logo'
       />
 

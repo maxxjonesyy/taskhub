@@ -2,6 +2,12 @@ import { LegacyRef } from "react";
 import { Task, ActiveProjectType } from "../types/types";
 import { Editorjs } from "./index";
 import { editTask } from "../utils";
+import {
+  dateIcon,
+  headerIcon,
+  priorityIcon,
+  statusIcon,
+} from "../assets/index";
 
 interface Props {
   activeProject: ActiveProjectType;
@@ -40,7 +46,7 @@ function TaskPanel({
       className='fixed h-full w-3/4 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
       <form onBlur={handleEditTask}>
         <div className='inline-flex gap-2 w-full'>
-          <img src='./src/assets/icons/header.svg' alt='some image' />
+          <img src={headerIcon} alt='some image' />
           <input
             className='font-bold text-2xl md:text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent'
             type='text'
@@ -54,7 +60,7 @@ function TaskPanel({
 
         <div className='flex flex-col gap-3 text-sm md:text-base'>
           <div className='inline-flex items-center gap-2 mt-5'>
-            <img src='./src/assets/icons/priority.svg' alt='priority' />
+            <img src={priorityIcon} alt='priority' />
             <label htmlFor='priority' className='w-20 text-secondary'>
               Priority
             </label>
@@ -73,7 +79,7 @@ function TaskPanel({
           </div>
 
           <div className='inline-flex items-center gap-2'>
-            <img src='./src/assets/icons/status.svg' alt='status' />
+            <img src={statusIcon} alt='status' />
             <label htmlFor='status' className='w-20 text-secondary'>
               Status
             </label>
@@ -92,7 +98,7 @@ function TaskPanel({
           </div>
 
           <div className='inline-flex items-center gap-2'>
-            <img src='./src/assets/icons/date.svg' alt='date' />
+            <img src={dateIcon} alt='date' />
             <label htmlFor='date' className='w-20 text-secondary'>
               Date
             </label>

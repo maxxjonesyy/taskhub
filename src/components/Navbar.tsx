@@ -3,6 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { PulseLoader } from "react-spinners";
 import { Project, User } from "../types/types";
 import { createProject, deleteAccount, warningAlert } from "../utils";
+import { logo, plusIcon, projectsIcon, settingsIcon } from "../assets/index";
 
 interface Props {
   user: User;
@@ -60,20 +61,20 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
           <img
             className='max-w-[125px] md:max-w-[300px]'
             width={200}
-            src='src/assets/logo.svg'
+            src={logo}
             alt='taskhub logo'
           />
         </li>
         <li
           onClick={() => setMenu(menu === "settings" ? "" : "settings")}
           className='relative inline-flex gap-2 hover:cursor-pointer'>
-          <img src='src/assets/icons/settings.svg' alt='toggle settings menu' />
+          <img src={settingsIcon} alt='toggle settings menu' />
           <span>Settings</span>
         </li>
         <li
           onClick={() => setMenu(menu === "projects" ? "" : "projects")}
           className='inline-flex gap-2 hover:cursor-pointer'>
-          <img src='src/assets/icons/projects.svg' alt='toggle projects menu' />
+          <img src={projectsIcon} alt='toggle projects menu' />
           <span>Projects</span>
         </li>
       </ul>
@@ -110,7 +111,7 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
               createProject?.classList.add("inline-flex");
             }}
             className='w-full inline-flex items-center justify-center gap-2 bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
-            <img src='./src/assets/icons/plus-icon.svg' alt='create project' />
+            <img src={plusIcon} alt='create project' />
             <span>Create Project</span>
           </button>
 

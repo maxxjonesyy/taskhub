@@ -2,6 +2,7 @@ import { Key, useEffect, useRef, useState } from "react";
 import { TaskPanel } from "./index";
 import { Task, ActiveProjectType } from "../types/types";
 import { getTasks, createTask, deleteTask, warningAlert } from "../utils";
+import { deleteIcon, editIcon, plusIcon } from "../assets/index";
 
 interface Props {
   queryTasks: Task[];
@@ -100,7 +101,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
             className='transition-colors duration-300 hover:text-secondary'>
             <img
               className='relative inline-block pr-1 bottom-[1px]'
-              src='./src/assets/icons/plus-icon.svg'
+              src={plusIcon}
             />
             Task
           </button>
@@ -116,7 +117,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   id='toggle-panel'
                   onClick={() => handleClickedTask(task)}
                   className='hover:cursor-pointer'
-                  src='./src/assets/icons/edit.svg'
+                  src={editIcon}
                 />
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
@@ -127,7 +128,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   }
                 }}
                 className='pl-2 hover:cursor-pointer'
-                src='./src/assets/icons/delete.svg'
+                src={deleteIcon}
                 alt='delete'
               />
             </div>
@@ -146,7 +147,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
             className='transition-colors duration-300 hover:text-secondary'>
             <img
               className='relative inline-block pr-1 bottom-[1px]'
-              src='./src/assets/icons/plus-icon.svg'
+              src={plusIcon}
             />
             Task
           </button>
@@ -162,7 +163,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   id='toggle-panel'
                   onClick={() => handleClickedTask(task)}
                   className='hover:cursor-pointer'
-                  src='./src/assets/icons/edit.svg'
+                  src={editIcon}
                 />
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
@@ -171,7 +172,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   if (activeProject) handleDeleteTask(activeProject._id, task);
                 }}
                 className='pl-2 hover:cursor-pointer'
-                src='./src/assets/icons/delete.svg'
+                src={deleteIcon}
                 alt='delete'
               />
             </div>
@@ -190,7 +191,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
             className='transition-colors duration-300 hover:text-secondary'>
             <img
               className='relative inline-block pr-1 bottom-[1px]'
-              src='./src/assets/icons/plus-icon.svg'
+              src={plusIcon}
             />
             Task
           </button>
@@ -207,7 +208,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   id='toggle-panel'
                   onClick={() => handleClickedTask(task)}
                   className='hover:cursor-pointer'
-                  src='./src/assets/icons/edit.svg'
+                  src={editIcon}
                 />
                 <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
@@ -216,7 +217,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
                   if (activeProject) handleDeleteTask(activeProject._id, task);
                 }}
                 className='pl-2 hover:cursor-pointer'
-                src='./src/assets/icons/delete.svg'
+                src={deleteIcon}
                 alt='delete'
               />
             </div>

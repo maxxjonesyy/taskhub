@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { showPasswordIcon } from "../../assets/index";
 
 interface Props {
   password: string;
@@ -26,7 +27,7 @@ function PasswordInput({ password, setPassword, placeholder }: Props) {
         onMouseDown={() => setShowPassword(true)}
         onMouseUp={() => setShowPassword(false)}
         className='absolute right-0 p-3 cursor-pointer transition-transform hover:scale-110'
-        src='src/assets/icons/show-password.svg'
+        src={showPasswordIcon}
         alt='reveal password'
       />
     </div>

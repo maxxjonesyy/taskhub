@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Tasks } from "./index";
 import { Project, ActiveProjectType, Task } from "../types/types";
 import { PulseLoader } from "react-spinners";
+import { dotsIcon, searchIcon } from "../assets/index";
 
 import {
   deleteProject,
@@ -50,7 +51,7 @@ function ActiveProject({
               <img
                 onClick={() => setShowProjectMenu(!showProjectMenu)}
                 className='relative bottom-[2px] cursor-pointer'
-                src='src/assets/icons/dots.svg'
+                src={dotsIcon}
                 alt='settings'
               />
             )}
@@ -115,7 +116,7 @@ function ActiveProject({
           <li className='inline-flex float-end'>
             <img
               className='cursor-pointer'
-              src='src/assets/icons/search.svg'
+              src={searchIcon}
               alt='search tasks'
             />
 
