@@ -78,10 +78,6 @@ function Login({ setIsLogin }: Props) {
           {isLoading ? <PulseLoader color='#FFFFFF' size={10} /> : "Login"}
         </button>
 
-        <button className='bg-transparent border border-secondary rounded-md p-3 font-medium shadow-lg transition-transform hover:scale-105'>
-          Sign in with Google
-        </button>
-
         <div className='flex justify-between'>
           <button
             className='underline text-secondary'
