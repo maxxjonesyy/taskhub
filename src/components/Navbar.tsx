@@ -59,7 +59,7 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
       <ul className='flex items-center justify-center md:justify-start gap-8 font-bold p-2'>
         <li className='mt-2'>
           <img
-            className='max-w-[125px] md:max-w-[300px]'
+            className='max-w-[100px] md:max-w-[300px]'
             width={200}
             src={logo}
             alt='taskhub logo'

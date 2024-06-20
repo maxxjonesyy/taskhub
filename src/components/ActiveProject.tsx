@@ -41,7 +41,7 @@ function ActiveProject({
       className='flex flex-col items-start p-5'>
       <h1>{activeProject?.name}</h1>
       <div className='w-full md:max-w-[1920px] border-b-2 border-background-secondary pb-2'>
-        <ul className='relative bottom-[1px]'>
+        <ul className='relative bottom-[1px] mt-8'>
           <li className='float-end'>
             {isLoading ? (
               <div className='relative bottom-[2px]'>
@@ -113,7 +113,7 @@ function ActiveProject({
               </aside>
             )}
           </li>
-          <li className='inline-flex float-end'>
+          <li className='inline-flex md:float-end'>
             <img
               className='cursor-pointer'
               src={searchIcon}
