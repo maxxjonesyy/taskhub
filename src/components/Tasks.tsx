@@ -1,8 +1,9 @@
 import { Key, useEffect, useRef, useState } from "react";
 import { TaskPanel } from "./index";
 import { Task, ActiveProjectType } from "../types/types";
-import { warningAlert } from "../utils";
+import { warningAlert, renderAlert } from "../utils";
 import { deleteIcon, editIcon, plusIcon } from "../assets/index";
+import { PulseLoader } from "react-spinners";
 import { api } from "../utils";
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 function Tasks({ queryTasks, activeProject }: Props) {
   const taskPanelRef = useRef<HTMLDivElement>(null);
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const blankTask = {
     name: "Task",
@@ -73,11 +75,41 @@ function Tasks({ queryTasks, activeProject }: Props) {
     });
   }
 
+  async function handleDroppedTask(event: any, newStatus: string) {
+    event.preventDefault();
+
+    if (!draggedTask) return;
+
+    const newTasks = tasks.map((task) =>
+      task === draggedTask ? { ...task, status: newStatus } : task
+    );
+
+    const task = {
+      ...draggedTask,
+      status: newStatus,
+    };
+
+    if (activeProject) {
+      setTasks(newTasks);
+      draggedTask = undefined;
+
+      const response = await api.editTask(activeProject?._id, task);
+
+      if (!response) {
+        renderAlert("error", "Failed to move task");
+      }
+    }
+  }
+
   useEffect(() => {
     if (activeProject) {
+      setIsLoading(true);
+
       api.getTasks(activeProject._id).then((tasks) => {
         setTasks(tasks);
       });
+
+      setIsLoading(false);
     }
   }, [activeProject]);
 
@@ -87,9 +119,13 @@ function Tasks({ queryTasks, activeProject }: Props) {
   }, []);
 
   const displayTasks = queryTasks.length > 0 ? queryTasks : tasks;
+  let draggedTask: any = undefined;
 
   return (
-    <section className='w-full flex flex-wrap gap-3'>
+    <section
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(event) => handleDroppedTask(event, "notStarted")}
+      className='w-full flex flex-wrap gap-3'>
       <div className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(39,39,39,0.5)] rounded-md shadow-sm'>
         <div className='flex items-center justify-between py-1.5 px-3 bg-[rgba(45,45,45,0.6)] text-sm rounded-lg'>
           <div className='inline-flex items-center gap-2'>
@@ -107,36 +143,47 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "notStarted")
-          .map((task: Task, index) => (
-            <div
-              key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
-              <div className='inline-flex gap-3'>
+        {isLoading ? (
+          <div className='flex items-center justify-center h-full'>
+            <PulseLoader size={7} color='#ffff' />
+          </div>
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "notStarted")
+            .map((task: Task, index) => (
+              <div
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                key={index}
+                className='flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
+                <div className='inline-flex gap-3'>
+                  <img
+                    id='toggle-panel'
+                    onClick={() => handleClickedTask(task)}
+                    className='hover:cursor-pointer'
+                    src={editIcon}
+                  />
+                  <p className='m-0 text-sm text-primary'>{task.name}</p>
+                </div>
                 <img
-                  id='toggle-panel'
-                  onClick={() => handleClickedTask(task)}
-                  className='hover:cursor-pointer'
-                  src={editIcon}
+                  onClick={() => {
+                    if (activeProject) {
+                      handleDeleteTask(activeProject._id, task);
+                    }
+                  }}
+                  className='pl-2 hover:cursor-pointer'
+                  src={deleteIcon}
+                  alt='delete'
                 />
-                <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) {
-                    handleDeleteTask(activeProject._id, task);
-                  }
-                }}
-                className='pl-2 hover:cursor-pointer'
-                src={deleteIcon}
-                alt='delete'
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
-      <div className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(64,89,179,0.2)] rounded-md shadow-sm'>
+      <div
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(event) => handleDroppedTask(event, "inProgress")}
+        className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(64,89,179,0.2)] rounded-md shadow-sm'>
         <div className='flex items-center justify-between py-1.5 px-3 bg-[rgba(64,89,179,0.3)] text-sm rounded-lg'>
           <div className='inline-flex items-center gap-2'>
             <div className='h-3 w-3 bg-[rgba(64,89,179,0.8)] rounded-full'></div>
@@ -153,34 +200,46 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "inProgress")
-          .map((task: Task, index) => (
-            <div
-              key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
-              <div className='inline-flex gap-3'>
+        {isLoading ? (
+          <div className='flex items-center justify-center h-full'>
+            <PulseLoader size={7} color='#ffff' />
+          </div>
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "inProgress")
+            .map((task: Task, index) => (
+              <div
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                key={index}
+                className='flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
+                <div className='inline-flex gap-3'>
+                  <img
+                    id='toggle-panel'
+                    onClick={() => handleClickedTask(task)}
+                    className='hover:cursor-pointer'
+                    src={editIcon}
+                  />
+                  <p className='m-0 text-sm text-primary'>{task.name}</p>
+                </div>
                 <img
-                  id='toggle-panel'
-                  onClick={() => handleClickedTask(task)}
-                  className='hover:cursor-pointer'
-                  src={editIcon}
+                  onClick={() => {
+                    if (activeProject)
+                      handleDeleteTask(activeProject._id, task);
+                  }}
+                  className='pl-2 hover:cursor-pointer'
+                  src={deleteIcon}
+                  alt='delete'
                 />
-                <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) handleDeleteTask(activeProject._id, task);
-                }}
-                className='pl-2 hover:cursor-pointer'
-                src={deleteIcon}
-                alt='delete'
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
-      <div className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(33,79,21,0.2)] rounded-md shadow-sm'>
+      <div
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(event) => handleDroppedTask(event, "done")}
+        className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(33,79,21,0.2)] rounded-md shadow-sm'>
         <div className='flex items-center justify-between py-2 px-3 bg-[rgba(33,79,21,0.3)] text-sm rounded-lg'>
           <div className='inline-flex items-center gap-2'>
             <div className='h-3 w-3 bg-[rgba(33,79,21,0.8)] rounded-full'></div>
@@ -197,32 +256,41 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "done")
-          .map((task: Task, index) => (
-            <div
-              onClick={() => setOpenedTask(task)}
-              key={index}
-              className='flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
-              <div className='inline-flex gap-3'>
+        {isLoading ? (
+          <div className='flex items-center justify-center h-full'>
+            <PulseLoader size={7} color='#ffff' />
+          </div>
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "done")
+            .map((task: Task, index) => (
+              <div
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                onClick={() => setOpenedTask(task)}
+                key={index}
+                className='flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100'>
+                <div className='inline-flex gap-3'>
+                  <img
+                    id='toggle-panel'
+                    onClick={() => handleClickedTask(task)}
+                    className='hover:cursor-pointer'
+                    src={editIcon}
+                  />
+                  <p className='m-0 text-sm text-primary'>{task.name}</p>
+                </div>
                 <img
-                  id='toggle-panel'
-                  onClick={() => handleClickedTask(task)}
-                  className='hover:cursor-pointer'
-                  src={editIcon}
+                  onClick={() => {
+                    if (activeProject)
+                      handleDeleteTask(activeProject._id, task);
+                  }}
+                  className='pl-2 hover:cursor-pointer'
+                  src={deleteIcon}
+                  alt='delete'
                 />
-                <p className='m-0 text-sm text-primary'>{task.name}</p>
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) handleDeleteTask(activeProject._id, task);
-                }}
-                className='pl-2 hover:cursor-pointer'
-                src={deleteIcon}
-                alt='delete'
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
       <TaskPanel
