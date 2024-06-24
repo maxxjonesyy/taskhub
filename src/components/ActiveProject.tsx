@@ -3,14 +3,8 @@ import { Tasks } from "./index";
 import { Project, ActiveProjectType, Task } from "../types/types";
 import { PulseLoader } from "react-spinners";
 import { dotsIcon, searchIcon } from "../assets/index";
-
-import {
-  deleteProject,
-  renameProject,
-  renderAlert,
-  warningAlert,
-  searchTasks,
-} from "../utils";
+import { renderAlert, warningAlert } from "../utils";
+import { api } from "../utils";
 
 interface Props {
   projects: Array<Project>;
@@ -65,7 +59,7 @@ function ActiveProject({
                     onChange={(event) => {
                       clearTimeout(renameTimer);
                       renameTimer = setTimeout(async () => {
-                        const newProject = await renameProject(
+                        const newProject = await api.renameProject(
                           event.target.value,
                           activeProject
                         );
@@ -95,7 +89,7 @@ function ActiveProject({
                       warningAlert(
                         `Are you sure you want to delete this project`,
                         async () => {
-                          const newProjectsArray = await deleteProject(
+                          const newProjectsArray = await api.deleteProject(
                             activeProject
                           );
 
@@ -126,7 +120,7 @@ function ActiveProject({
                 setIsLoading(true);
                 queryTimer = setTimeout(async () => {
                   if (activeProject) {
-                    const queriedTasks = await searchTasks(
+                    const queriedTasks = await api.searchTasks(
                       activeProject._id,
                       event.target.value
                     );

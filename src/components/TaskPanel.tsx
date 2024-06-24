@@ -1,7 +1,8 @@
 import { LegacyRef } from "react";
 import { Task, ActiveProjectType } from "../types/types";
 import { Editorjs } from "./index";
-import { editTask } from "../utils";
+import { api } from "../utils";
+
 import {
   dateIcon,
   headerIcon,
@@ -28,7 +29,7 @@ function TaskPanel({
 }: Props) {
   async function handleEditTask() {
     if (activeProject) {
-      const editedTask = await editTask(activeProject?._id, openedTask);
+      const editedTask = await api.editTask(activeProject?._id, openedTask);
 
       if (editedTask) {
         setTasks(

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { User } from "../types/types";
-import { createProject } from "../utils";
 import { PulseLoader } from "react-spinners";
+import { api } from "../utils";
 
 interface Props {
   user: User;
@@ -23,7 +23,7 @@ function WelcomeScreen({
     setLoading(true);
 
     try {
-      const { data, error } = await createProject(projectName, user);
+      const { data, error } = await api.createProject(projectName, user);
 
       if (data) {
         setProjects([data.project, ...projects]);

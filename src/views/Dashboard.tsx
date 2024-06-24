@@ -1,37 +1,17 @@
 import { useEffect, useState } from "react";
 import { Navbar, WelcomeScreen, ActiveProject } from "../components";
 import { Project, ActiveProjectType } from "../types/types";
-import { getToken } from "../utils";
 import { PulseLoader } from "react-spinners";
-import axios from "axios";
+import { auth, api } from "../utils/index";
 
 function Dashboard() {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const user = auth.getUser();
   const [projects, setProjects] = useState(Array<Project>);
   const [activeProject, setActiveProject] = useState<ActiveProjectType>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  async function getProjects() {
-    try {
-      const response = await axios.get(`api/get-projects/${user.id}`, {
-        headers: {
-          Authorization: getToken(),
-        },
-      });
-
-      if (response.status === 200) {
-        setProjects(response.data.projects);
-        setActiveProject(response.data.projects[0]);
-      }
-    } catch (error: any) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    getProjects();
+    api.getProjects(setProjects, setActiveProject, setLoading);
   }, []);
 
   return (

@@ -2,8 +2,9 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { PulseLoader } from "react-spinners";
 import { Project, User } from "../types/types";
-import { createProject, deleteAccount, warningAlert } from "../utils";
+import { warningAlert } from "../utils";
 import { logo, plusIcon, projectsIcon, settingsIcon } from "../assets/index";
+import { auth, api } from "../utils//index";
 
 interface Props {
   user: User;
@@ -18,28 +19,6 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
 
   const { logout } = useContext(AuthContext);
-
-  async function handleCreateProject() {
-    setLoading(true);
-
-    try {
-      const { data, error } = await createProject(projectName, user);
-
-      if (data) {
-        setProjects([data.project, ...projects]);
-        setActiveProject(data.project);
-      }
-      if (error) {
-        console.error(error);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setMenu("");
-      setProjectName("");
-      setLoading(false);
-    }
-  }
 
   useEffect(() => {
     const nav = document.querySelector("nav");
@@ -89,7 +68,7 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
             className='mt-5 w-full bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'
             onClick={() =>
               warningAlert("This will delete your account", () =>
-                deleteAccount(user)
+                auth.deleteAccount(user)
               )
             }>
             Delete account
@@ -127,7 +106,23 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
             />
             <button
               type='submit'
-              onClick={handleCreateProject}
+              onClick={async () => {
+                setLoading(true);
+                try {
+                  const { data } = await api.createProject(projectName, user);
+
+                  if (data) {
+                    setProjects([data.project, ...projects]);
+                    setActiveProject(data.project);
+                  }
+                } catch (error) {
+                  console.error(error);
+                } finally {
+                  setMenu("");
+                  setProjectName("");
+                  setLoading(false);
+                }
+              }}
               className='w-full bg-accent rounded-md p-2 ml-2 transition-transform hover:scale-105'>
               {loading ? <PulseLoader color='#FFFFFF' size={6} /> : "Create"}
             </button>

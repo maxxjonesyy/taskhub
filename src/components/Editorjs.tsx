@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { Task, ActiveProjectType } from "../types/types";
-import { editTask } from "../utils";
 
 import EditorJS from "@editorjs/editorjs";
 import List from "@editorjs/list";
 import Header from "@editorjs/header";
 import Paragraph from "@editorjs/paragraph";
 import Checklist from "@editorjs/checklist";
+import { api } from "../utils";
 
 interface Props {
   activeProject: ActiveProjectType;
@@ -27,7 +27,7 @@ function Editorjs({
 
   async function handleEditTask(data: string) {
     if (activeProject) {
-      const editedTask = await editTask(activeProject._id, {
+      const editedTask = await api.editTask(activeProject._id, {
         ...openedTask,
         description: data,
       });

@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { renderAlert } from "../utils";
 import { PulseLoader } from "react-spinners";
 import { PasswordInput } from "../components/index";
-import axios from "axios";
+import { auth } from "../utils";
 
 interface Props {
   setIsLogin: Function;
@@ -13,37 +12,19 @@ function Register({ setIsLogin }: Props) {
   const [password, setPassword] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  async function handleRegister(event: any): Promise<void> {
-    event.preventDefault();
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post("/auth/register", {
-        email,
-        password,
-      });
-
-      if (response.status === 200) {
-        const { message } = response.data;
-
-        if (message) {
-          renderAlert("success", message);
-        }
-
-        setEmail("");
-        setPassword("");
-      }
-    } catch (error: any) {
-      renderAlert("error", error.response.data.error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
   return (
     <div className='w-full'>
       <form
-        onSubmit={handleRegister}
+        onSubmit={() => {
+          auth.register(
+            event,
+            email,
+            password,
+            setIsLoading,
+            setEmail,
+            setPassword
+          );
+        }}
         className='w-[350px] flex flex-col justify-center mx-auto gap-6'>
         <div>
           <h2 className='text-3xl font-bold mb-2'>Register</h2>

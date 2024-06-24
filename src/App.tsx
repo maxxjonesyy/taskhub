@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import { Auth, Dashboard } from "./views";
 import { ProtectedRoute } from "./components";
 import { AuthContext } from "./context/AuthContext";
-import { verifyToken } from "./utils";
+import { auth } from "./utils";
 
 function App() {
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -12,7 +12,7 @@ function App() {
 
   useEffect(() => {
     async function verifyAuth() {
-      setIsAuthenticated(await verifyToken());
+      setIsAuthenticated(await auth.verifyToken());
     }
     verifyAuth();
   }, []);

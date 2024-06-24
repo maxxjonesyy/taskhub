@@ -1,8 +1,9 @@
 import { Key, useEffect, useRef, useState } from "react";
 import { TaskPanel } from "./index";
 import { Task, ActiveProjectType } from "../types/types";
-import { getTasks, createTask, deleteTask, warningAlert } from "../utils";
+import { warningAlert } from "../utils";
 import { deleteIcon, editIcon, plusIcon } from "../assets/index";
+import { api } from "../utils";
 
 interface Props {
   queryTasks: Task[];
@@ -47,7 +48,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
 
   async function handleCreateTask(status: string) {
     if (activeProject) {
-      const newTask = await createTask(activeProject?._id, {
+      const newTask = await api.createTask(activeProject?._id, {
         ...blankTask,
         status: status,
       });
@@ -64,7 +65,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
 
   async function handleDeleteTask(projectId: Key, task: Task) {
     warningAlert("Are you sure you want to delete this task?", async () => {
-      const newTasksArray = await deleteTask(projectId, task);
+      const newTasksArray = await api.deleteTask(projectId, task);
 
       if (newTasksArray) {
         setTasks(newTasksArray);
@@ -74,7 +75,7 @@ function Tasks({ queryTasks, activeProject }: Props) {
 
   useEffect(() => {
     if (activeProject) {
-      getTasks(activeProject._id).then((tasks) => {
+      api.getTasks(activeProject._id).then((tasks) => {
         setTasks(tasks);
       });
     }
