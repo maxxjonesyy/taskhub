@@ -29,9 +29,12 @@ class auth {
 
         setEmail("");
         setPassword("");
+      } else {
+        renderAlert("error", "Unexpected response from server");
       }
-    } catch (error: any) {
-      renderAlert("error", error.response.data.error);
+    } catch (error) {
+      console.error("Register account failed", error);
+      renderAlert("error", "Register account failed");
     } finally {
       setIsLoading(false);
     }
@@ -55,10 +58,12 @@ class auth {
         renderAlert("success", "Account deleted!");
         localStorage.removeItem("user");
         window.location.reload();
+      } else {
+        renderAlert("error", "Unexpected response from server");
       }
     } catch (error) {
+      console.error("Failed to delete account", error);
       renderAlert("error", "Failed to delete account");
-      console.error(error);
     }
   }
 
@@ -90,17 +95,13 @@ class auth {
 
       if (response.status === 200) {
         return true;
-      } else return false;
-    } catch (error: any) {
-      if (error.response) {
-        renderAlert(
-          "error",
-          `Error verifying token: ${error.response.data.message}`
-        );
       } else {
-        console.error(`Error verifying token: ${error}`);
+        renderAlert("error", "Unexpected response from server");
+        return false;
       }
-
+    } catch (error: any) {
+      console.error("Failed to verify user", error);
+      renderAlert("error", "Failed to verify user");
       return false;
     }
   }
