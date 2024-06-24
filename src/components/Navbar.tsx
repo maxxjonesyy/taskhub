@@ -108,20 +108,17 @@ function Navbar({ user, projects, setProjects, setActiveProject }: Props) {
               type='submit'
               onClick={async () => {
                 setLoading(true);
-                try {
-                  const { data } = await api.createProject(projectName, user);
 
-                  if (data) {
-                    setProjects([data.project, ...projects]);
-                    setActiveProject(data.project);
-                  }
-                } catch (error) {
-                  console.error(error);
-                } finally {
-                  setMenu("");
-                  setProjectName("");
-                  setLoading(false);
+                const response = await api.createProject(projectName, user);
+
+                if (response) {
+                  setProjects([response.data.project, ...projects]);
+                  setActiveProject(response.data.project);
                 }
+
+                setMenu("");
+                setProjectName("");
+                setLoading(false);
               }}
               className='w-full bg-accent rounded-md p-2 ml-2 transition-transform hover:scale-105'>
               {loading ? <PulseLoader color='#FFFFFF' size={6} /> : "Create"}

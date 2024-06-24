@@ -19,26 +19,6 @@ function WelcomeScreen({
   const [projectName, setProjectName] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleCreateProject() {
-    setLoading(true);
-
-    try {
-      const { data, error } = await api.createProject(projectName, user);
-
-      if (data) {
-        setProjects([data.project, ...projects]);
-        setActiveProject(data.project);
-      }
-      if (error) {
-        console.error(error);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   return (
     <section className='flex flex-col items-start p-5'>
       <h1 className='w-full md:w-3/4 border-b-2 border-background-secondary pb-3'>
@@ -61,7 +41,18 @@ function WelcomeScreen({
         />
 
         <button
-          onClick={handleCreateProject}
+          onClick={async () => {
+            setLoading(true);
+
+            const response = await api.createProject(projectName, user);
+
+            if (response) {
+              setProjects([response.data.project, ...projects]);
+              setActiveProject(response.data.project);
+            }
+
+            setLoading(false);
+          }}
           className='ml-3 bg-transparent border border-secondary rounded-md py-3 px-5 font-medium shadow-lg transition-transform hover:scale-105'>
           {loading ? <PulseLoader color='#FFFFFF' size={8} /> : "Create"}
         </button>
