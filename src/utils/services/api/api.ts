@@ -13,11 +13,7 @@ class api {
     const user = auth.getUser();
 
     try {
-      const response = await axios.get(`api/get-projects/${user.id}`, {
-        headers: {
-          Authorization: auth.getToken(),
-        },
-      });
+      const response = await axios.get(`api/get-projects/${user.id}`);
 
       if (response.status === 200) {
         setProjects(response.data.projects);
@@ -35,18 +31,10 @@ class api {
 
   static async createProject(projectName: string, user: User) {
     try {
-      const response = await axios.post(
-        "/api/create-project",
-        {
-          projectName,
-          id: user.id,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.post("/api/create-project", {
+        projectName,
+        id: user.id,
+      });
 
       if (response.status === 200) {
         const { project } = response.data;
@@ -63,17 +51,10 @@ class api {
 
   static async deleteProject(project: ActiveProjectType) {
     try {
-      const response = await axios.post(
-        "api/delete-project",
-        {
-          projectId: project?._id,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.post("api/delete-project", {
+        projectId: project?._id,
+      });
+
       if (response.status === 200) {
         const { data } = response.data;
         renderAlert("success", `${project?.name} was deleted`);
@@ -92,18 +73,10 @@ class api {
     activeProject: ActiveProjectType
   ) {
     try {
-      const response = await axios.put(
-        "api/rename-project/",
-        {
-          projectId: activeProject?._id,
-          projectName,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.put("api/rename-project/", {
+        projectId: activeProject?._id,
+        projectName,
+      });
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -119,11 +92,7 @@ class api {
 
   static async getTasks(projectId: Key) {
     try {
-      const response = await axios.get(`api/get-tasks/${projectId}`, {
-        headers: {
-          Authorization: auth.getToken(),
-        },
-      });
+      const response = await axios.get(`api/get-tasks/${projectId}`);
 
       if (response.status === 200) {
         const { data } = response.data;
@@ -147,12 +116,7 @@ class api {
 
     try {
       const response = await axios.get(
-        `/api/search-tasks/${projectId}/${query}`,
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
+        `/api/search-tasks/${projectId}/${query}`
       );
 
       if (response.status === 200) {
@@ -169,18 +133,10 @@ class api {
 
   static async createTask(projectId: Key, openedTask: Task) {
     try {
-      const response = await axios.post(
-        "api/create-task",
-        {
-          projectId,
-          openedTask,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.post("api/create-task", {
+        projectId,
+        openedTask,
+      });
 
       if (response.status === 200) {
         const { createdTask } = response.data;
@@ -199,18 +155,11 @@ class api {
 
   static async deleteTask(projectId: Key, task: Task) {
     try {
-      const response = await axios.post(
-        "/api/delete-task",
-        {
-          projectId,
-          task,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.post("/api/delete-task", {
+        projectId,
+        task,
+      });
+
       if (response.status === 200) {
         const { data } = response.data;
         return data;
@@ -225,18 +174,11 @@ class api {
 
   static async editTask(projectId: Key, openedTask: Task) {
     try {
-      const response = await axios.put(
-        "/api/edit-task",
-        {
-          projectId,
-          openedTask,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.put("/api/edit-task", {
+        projectId,
+        openedTask,
+      });
+
       if (response.status === 200) {
         const { data } = response.data;
         return data;

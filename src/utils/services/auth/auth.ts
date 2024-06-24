@@ -42,17 +42,9 @@ class auth {
 
   static async deleteAccount(user: User) {
     try {
-      const response = await axios.post(
-        "auth/delete-account",
-        {
-          email: user.email,
-        },
-        {
-          headers: {
-            Authorization: auth.getToken(),
-          },
-        }
-      );
+      const response = await axios.post("auth/delete-account", {
+        email: user.email,
+      });
 
       if (response.status === 200) {
         renderAlert("success", "Account deleted!");
@@ -87,11 +79,7 @@ class auth {
         return false;
       }
 
-      const response = await axios.get("/auth/verify-token", {
-        headers: {
-          Authorization: auth.getToken(),
-        },
-      });
+      const response = await axios.get("/auth/verify-token");
 
       if (response.status === 200) {
         return true;
