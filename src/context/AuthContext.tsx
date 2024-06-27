@@ -28,6 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = () => {
     localStorage.removeItem("user");
     setIsAuthenticated(false);
+    window.location.reload();
   };
 
   const authContextValue: AuthContextType = {
