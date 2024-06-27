@@ -91,7 +91,7 @@ function Editorjs({
         editor.destroy();
       }
     };
-  }, [taskSidebar?.style.right, openedTask.description]);
+  }, [taskSidebar?.style.right]);
 
   return <div id='editorjs' className='mt-5'></div>;
 }
