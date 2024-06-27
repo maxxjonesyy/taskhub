@@ -1,17 +1,27 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navbar, WelcomeScreen, ActiveProject } from "../components";
 import { Project, ActiveProjectType } from "../types/types";
+import { auth, api, renderAlert } from "../utils/index";
 import { PulseLoader } from "react-spinners";
-import { auth, api } from "../utils/index";
 
 function Dashboard() {
   const user = auth.getUser();
   const [projects, setProjects] = useState(Array<Project>);
   const [activeProject, setActiveProject] = useState<ActiveProjectType>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    api.getProjects(setProjects, setActiveProject, setLoading);
+    auth.verifyToken().then((isVerified) => {
+      if (!isVerified) {
+        renderAlert("error", "Please login to continue");
+        navigate("/");
+        return;
+      }
+
+      api.getProjects(setProjects, setActiveProject, setIsLoading);
+    });
   }, []);
 
   return (
@@ -23,25 +33,25 @@ function Dashboard() {
         setActiveProject={setActiveProject}
       />
 
-      {loading ? (
-        <div className='flex-1 flex items-center justify-center'>
-          <PulseLoader color='#FFFFFF' size={12} />
+      {isLoading ? (
+        <div className='flex flex-1 items-center justify-center'>
+          <PulseLoader color='#fff' size={12} />
         </div>
       ) : (
         <div className='flex-1 p-5'>
-          {projects && projects.length === 0 ? (
-            <WelcomeScreen
-              user={user}
-              projects={projects}
-              setProjects={setProjects}
-              setActiveProject={setActiveProject}
-            />
-          ) : (
+          {projects.length > 0 ? (
             <ActiveProject
               projects={projects}
               setProjects={setProjects}
               setActiveProject={setActiveProject}
               activeProject={activeProject}
+            />
+          ) : (
+            <WelcomeScreen
+              user={user}
+              projects={projects}
+              setProjects={setProjects}
+              setActiveProject={setActiveProject}
             />
           )}
         </div>

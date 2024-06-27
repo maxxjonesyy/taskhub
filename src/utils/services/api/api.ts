@@ -8,7 +8,7 @@ class api {
   static async getProjects(
     setProjects: Function,
     setActiveProject: Function,
-    setLoading: Function
+    setIsLoading: Function
   ) {
     const user = auth.getUser();
 
@@ -25,7 +25,9 @@ class api {
       console.error("Failed to fetch projects", error);
       renderAlert("error", "Failed to fetch projects");
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   }
 
