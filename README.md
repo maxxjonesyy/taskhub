@@ -14,7 +14,7 @@ Welcome to Taskhub, the drag and drop productivity dashboard designed to streaml
 * NodeJS
 * MongoDB
 * Express
-* JSONWebtoken
+* JSON Web Tokens (JWT)
 
 ## Screenshots
 <img src="https://github.com/maxxjonesyy/taskhub/assets/73814371/c9c10a84-82b0-4270-811c-5770d30d9236" width="550px">
