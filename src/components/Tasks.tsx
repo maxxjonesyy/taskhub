@@ -116,11 +116,11 @@ function Tasks({ queryTasks, activeProject }: Props) {
   let draggedTask: any = undefined;
 
   return (
-    <section
-      onDragOver={(e) => e.preventDefault()}
-      onDrop={(event) => handleDroppedTask(event, "notStarted")}
-      className='w-full flex flex-wrap gap-3'>
-      <div className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(39,39,39,0.5)] rounded-md shadow-sm'>
+    <section className='w-full flex flex-wrap gap-3'>
+      <div
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(event) => handleDroppedTask(event, "notStarted")}
+        className='w-full md:max-w-[300px] min-h-[300px] mt-5 p-3 bg-[rgba(39,39,39,0.5)] rounded-md shadow-sm'>
         <div className='flex items-center justify-between py-1.5 px-3 bg-[rgba(45,45,45,0.6)] text-sm rounded-lg'>
           <div className='inline-flex items-center gap-2'>
             <div className='h-3 w-3 bg-[rgba(75,75,75,1)] rounded-full'></div>
