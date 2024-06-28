@@ -89,6 +89,7 @@ function ActiveProject({
                       warningAlert(
                         `Are you sure you want to delete this project`,
                         async () => {
+                          setIsLoading(true);
                           const newProjectsArray = await api.deleteProject(
                             activeProject
                           );
@@ -97,11 +98,16 @@ function ActiveProject({
                             setProjects(newProjectsArray);
                             setActiveProject(newProjectsArray[0]);
                           }
+                          setIsLoading(false);
                         }
                       );
                     }}
                     className='mt-5 w-full text-sm bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
-                    Delete {activeProject?.name}
+                    {isLoading ? (
+                      <span>Deleting project...</span>
+                    ) : (
+                      `Delete ${activeProject?.name}`
+                    )}
                   </button>
                 </div>
               </aside>
