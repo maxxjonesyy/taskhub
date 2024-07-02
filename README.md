@@ -11,10 +11,10 @@ Welcome to Taskhub, the drag and drop productivity dashboard designed to streaml
 * TailwindCSS
 
 *Backend*
-* NodeJS
+* Node.js
 * MongoDB
 * Express
-* JSONWebtoken
+* JWT (JSON Web Token)
 
 ## Screenshots
 <img src="https://github.com/maxxjonesyy/taskhub/assets/73814371/c9c10a84-82b0-4270-811c-5770d30d9236" width="550px">
