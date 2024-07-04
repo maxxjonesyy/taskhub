@@ -1,6 +1,6 @@
 # Taskhub
 
-Welcome to Taskhub, the drag and drop productivity dashboard designed to streamline your workflow and enhance your efficiency. With Taskhub, you can effortlessly manage your tasks and track their progress, ensuring you stay on top of your to-do list. 
+Taskhub is a drag and drop dashboard, designed to streamline your workflow and enhance your efficiency, ensuring you stay on top of your to-do list.
 
 ## Tech Used 💻
 
