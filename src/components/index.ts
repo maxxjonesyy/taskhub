@@ -1,5 +1,3 @@
-import Login from "./Login";
-import Register from "./Register";
 import ForgotPassword from "./ForgotPassword";
 import Navbar from "./Navbar";
 import WelcomeScreen from "./WelcomeScreen";
@@ -11,8 +9,6 @@ import Editorjs from "./Editorjs";
 import PasswordInput from "./ui/PasswordInput";
 
 export {
-  Login,
-  Register,
   ForgotPassword,
   PasswordInput,
   Navbar,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PulseLoader } from "react-spinners";
-import { PasswordInput } from "../components/index";
-import { auth } from "../utils";
+import { PasswordInput } from "../../components/index";
+import { auth } from "../../utils";
 
 interface Props {
   setIsLogin: Function;
