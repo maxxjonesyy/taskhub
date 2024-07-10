@@ -22,15 +22,17 @@ function Auth() {
       const isVerified = await auth.verifyToken();
 
       if (!isVerified) {
-        return renderAlert(
+        renderAlert(
           "error",
           "Your access token has expired, please login again"
         );
+        return;
       }
 
       navigate("/dashboard");
     } catch (error) {
-      renderAlert("error", "Server error: Failed to verify token");
+      localStorage.removeItem("user");
+      renderAlert("error", "Error verifying token: Please try again");
     } finally {
       setIsLoading(false);
     }
@@ -55,20 +57,6 @@ function Auth() {
         </div>
       ) : (
         <>
-          {user.token && (
-            <div className='w-1/2 mx-auto'>
-              <h2 className='text-primary'>
-                Welcome back{" "}
-                <span className='font-bold text-accent'>{user.username}</span>
-              </h2>
-              <button
-                onClick={() => navigate("/dashboard")}
-                className='mt-5 bg-accent font-medium rounded-md p-2 shadow-lg transition-transform hover:scale-105 w-full'>
-                Proceed to Dashboard
-              </button>
-            </div>
-          )}
-
           {isLogin && !user.token && <Login setIsLogin={setIsLogin} />}
           {!isLogin && !user.token && <Register setIsLogin={setIsLogin} />}
         </>
