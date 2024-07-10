@@ -1,19 +1,43 @@
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { Login, Register } from "../components/index";
-import { auth } from "../utils";
+import { Login, Register } from "../views/index";
+import { auth, renderAlert } from "../utils";
 import { logo } from "../assets/index";
+import { PulseLoader } from "react-spinners";
 
 function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const user = auth.getUser();
+
+  async function initiateAuthFlow() {
+    if (!user.token) return;
+
+    try {
+      setIsLoading(true);
+      const isVerified = await auth.verifyToken();
+
+      if (!isVerified) {
+        return renderAlert(
+          "error",
+          "Your access token has expired, please login again"
+        );
+      }
+
+      navigate("/dashboard");
+    } catch (error) {
+      renderAlert("error", "Server error: Failed to verify token");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
-    auth.verifyToken().then((isVerified) => {
-      isVerified ? navigate("/dashboard") : navigate("/");
-    });
+    initiateAuthFlow();
   }, [isAuthenticated]);
 
   return (
@@ -25,10 +49,29 @@ function Auth() {
         alt='Taskhub logo'
       />
 
-      {isLogin ? (
-        <Login setIsLogin={setIsLogin} />
+      {isLoading ? (
+        <div className='mx-auto'>
+          <PulseLoader size={12} color='#ffffff' />
+        </div>
       ) : (
-        <Register setIsLogin={setIsLogin} />
+        <>
+          {user.token && (
+            <div className='w-1/2 mx-auto'>
+              <h2 className='text-primary'>
+                Welcome back{" "}
+                <span className='font-bold text-accent'>{user.username}</span>
+              </h2>
+              <button
+                onClick={() => navigate("/dashboard")}
+                className='mt-5 bg-accent font-medium rounded-md p-2 shadow-lg transition-transform hover:scale-105 w-full'>
+                Proceed to Dashboard
+              </button>
+            </div>
+          )}
+
+          {isLogin && !user.token && <Login setIsLogin={setIsLogin} />}
+          {!isLogin && !user.token && <Register setIsLogin={setIsLogin} />}
+        </>
       )}
     </div>
   );

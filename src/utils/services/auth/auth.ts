@@ -72,24 +72,17 @@ class auth {
   }
 
   static async verifyToken(): Promise<boolean> {
-    try {
-      const user = auth.getUser();
+    const user = auth.getUser();
 
-      if (!user.token) {
-        return false;
-      }
+    if (!user.token) {
+      return false;
+    }
 
-      const response = await axios.get("/auth/verify-token");
+    const response = await axios.get("/auth/verify-token");
 
-      if (response.status === 200) {
-        return true;
-      } else {
-        renderAlert("error", "Unexpected response from server");
-        return false;
-      }
-    } catch (error: any) {
-      console.error("Failed to verify user", error);
-      renderAlert("error", "Failed to verify user");
+    if (response.status === 200) {
+      return true;
+    } else {
       return false;
     }
   }
