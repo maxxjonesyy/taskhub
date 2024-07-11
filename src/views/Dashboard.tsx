@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar, WelcomeScreen, ActiveProject } from "../components";
 import { Project, ActiveProjectType } from "../types/types";
-import { auth, api, renderAlert } from "../utils/index";
+import { auth, api } from "../utils/index";
 import { PulseLoader } from "react-spinners";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Dashboard() {
   const user = auth.getUser();
   const [projects, setProjects] = useState(Array<Project>);
   const [activeProject, setActiveProject] = useState<ActiveProjectType>();
   const [isLoading, setIsLoading] = useState(true);
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    auth.verifyToken().then((isVerified) => {
-      if (!isVerified) {
-        renderAlert("error", "Please login to continue");
-        navigate("/");
-        return;
-      }
+    if (!isAuthenticated) {
+      navigate("/");
+      return;
+    }
 
-      api.getProjects(setProjects, setActiveProject, setIsLoading);
-    });
+    api.getProjects(setProjects, setActiveProject, setIsLoading);
   }, []);
 
   return (

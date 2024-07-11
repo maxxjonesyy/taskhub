@@ -9,14 +9,12 @@ import { PulseLoader } from "react-spinners";
 function Auth() {
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const user = auth.getUser();
 
   async function initiateAuthFlow() {
-    if (!user.token) return;
-
     try {
       setIsLoading(true);
       const isVerified = await auth.verifyToken();
@@ -29,6 +27,7 @@ function Auth() {
         return;
       }
 
+      setIsAuthenticated(true);
       navigate("/dashboard");
     } catch (error) {
       localStorage.removeItem("user");
@@ -39,6 +38,8 @@ function Auth() {
   }
 
   useEffect(() => {
+    if (!user.token) return;
+
     initiateAuthFlow();
   }, [isAuthenticated]);
 
