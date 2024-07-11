@@ -100,7 +100,9 @@ const register = async (req, res) => {
     });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ error: "An error occurred while registering user" });
+    return res
+      .status(500)
+      .json({ error: "An error occurred while registering user" });
   }
 };
 

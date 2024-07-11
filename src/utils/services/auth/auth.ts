@@ -20,21 +20,17 @@ class auth {
         password,
       });
 
-      if (response.status === 200) {
-        const { message } = response.data;
-
-        if (message) {
-          renderAlert("success", message);
-        }
-
-        setEmail("");
-        setPassword("");
-      } else {
-        renderAlert("error", "Unexpected response from server");
+      renderAlert("success", response.data.message);
+      setEmail("");
+      setPassword("");
+    } catch (error: any) {
+      if (error) {
+        console.error("Register account failed", error);
+        renderAlert(
+          "error",
+          error.response.data.error || "Error: Failed to register"
+        );
       }
-    } catch (error) {
-      console.error("Register account failed", error);
-      renderAlert("error", "Register account failed");
     } finally {
       setIsLoading(false);
     }
