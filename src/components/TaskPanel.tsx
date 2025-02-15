@@ -42,15 +42,15 @@ function TaskPanel({
 
   return (
     <aside
-      id='task-sidebar'
+      id="task-sidebar"
       ref={taskPanelRef}
-      className='fixed h-full w-3/4 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5'>
+      className="fixed h-full w-3/4 md:max-w-[500px] top-0 right-[-100%] transition-all duration-300 bg-background-secondary shadow-2xl p-5 z-50">
       <form onBlur={handleEditTask}>
-        <div className='inline-flex gap-2 w-full'>
-          <img src={headerIcon} alt='some image' />
+        <div className="inline-flex gap-2 w-full">
+          <img src={headerIcon} alt="some image" />
           <input
-            className='font-bold text-2xl md:text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent'
-            type='text'
+            className="font-bold text-2xl md:text-3xl w-full text-ellipsis placeholder:text-primary focus:outline-none bg-transparent"
+            type="text"
             value={openedTask.name}
             onChange={(e) =>
               setOpenedTask({ ...openedTask, name: e.target.value })
@@ -59,55 +59,55 @@ function TaskPanel({
           />
         </div>
 
-        <div className='flex flex-col gap-3 text-sm md:text-base'>
-          <div className='inline-flex items-center gap-2 mt-5'>
-            <img src={priorityIcon} alt='priority' />
-            <label htmlFor='priority' className='w-20 text-secondary'>
+        <div className="flex flex-col gap-3 text-sm md:text-base">
+          <div className="inline-flex items-center gap-2 mt-5">
+            <img src={priorityIcon} alt="priority" />
+            <label htmlFor="priority" className="w-20 text-secondary">
               Priority
             </label>
             <select
-              name='priority'
-              id='priority'
-              className='task-input'
+              name="priority"
+              id="priority"
+              className="task-input"
               value={openedTask.priority}
               onChange={(e) =>
                 setOpenedTask({ ...openedTask, priority: e.target.value })
               }>
-              <option value='low'>Low</option>
-              <option value='medium'>Medium</option>
-              <option value='high'>High</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select>
           </div>
 
-          <div className='inline-flex items-center gap-2'>
-            <img src={statusIcon} alt='status' />
-            <label htmlFor='status' className='w-20 text-secondary'>
+          <div className="inline-flex items-center gap-2">
+            <img src={statusIcon} alt="status" />
+            <label htmlFor="status" className="w-20 text-secondary">
               Status
             </label>
             <select
-              name='status'
-              id='status'
-              className='task-input'
+              name="status"
+              id="status"
+              className="task-input"
               value={openedTask.status}
               onChange={(e) =>
                 setOpenedTask({ ...openedTask, status: e.target.value })
               }>
-              <option value='notStarted'>Not Started</option>
-              <option value='inProgress'>In Progress</option>
-              <option value='done'>Done</option>
+              <option value="notStarted">Not Started</option>
+              <option value="inProgress">In Progress</option>
+              <option value="done">Done</option>
             </select>
           </div>
 
-          <div className='inline-flex items-center gap-2'>
-            <img src={dateIcon} alt='date' />
-            <label htmlFor='date' className='w-20 text-secondary'>
+          <div className="inline-flex items-center gap-2">
+            <img src={dateIcon} alt="date" />
+            <label htmlFor="date" className="w-20 text-secondary">
               Date
             </label>
             <input
-              type='date'
-              name='date'
-              id='date'
-              className='task-input'
+              type="date"
+              name="date"
+              id="date"
+              className="task-input"
               value={
                 openedTask.dueDate
                   ? new Date(openedTask.dueDate).toISOString().split("T")[0]
