@@ -3,6 +3,7 @@ import { TaskPanel } from "./index";
 import { Task, ActiveProjectType } from "../types/types";
 import { warningAlert, renderAlert } from "../utils";
 import { deleteIcon, editIcon, plusIcon } from "../assets/index";
+import { PulseLoader } from "react-spinners";
 import { api } from "../utils";
 
 interface Props {
@@ -123,6 +124,13 @@ function Tasks({ queryTasks, activeProject }: Props) {
   const displayTasks = queryTasks.length > 0 ? queryTasks : tasks;
   let draggedTask: any = undefined;
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  useEffect(() => {
+    if (displayTasks.length > 0) {
+      setIsLoading(false);
+    }
+  }, [displayTasks]);
+
   return (
     <section className="w-full flex flex-wrap gap-3">
       <div
@@ -145,33 +153,37 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "notStarted")
-          .map((task: Task, index) => (
-            <div
-              onDragStart={() => (draggedTask = task)}
-              draggable
-              key={index}
-              className="flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+        {isLoading ? (
+          <PulseLoader size={6} color="#ffffff" className="pt-3 pl-2" />
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "notStarted")
+            .map((task: Task, index) => (
               <div
-                id="toggle-panel"
-                onClick={() => handleClickedTask(task)}
-                className="inline-flex gap-3 hover:cursor-pointer">
-                <img src={editIcon} />
-                <p className="m-0 text-sm text-primary">{task.name}</p>
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                key={index}
+                className="flex justify-between mt-3 p-2 bg-[rgba(45,45,45,0.6)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+                <div
+                  id="toggle-panel"
+                  onClick={() => handleClickedTask(task)}
+                  className="inline-flex gap-3 hover:cursor-pointer">
+                  <img src={editIcon} />
+                  <p className="m-0 text-sm text-primary">{task.name}</p>
+                </div>
+                <img
+                  onClick={() => {
+                    if (activeProject) {
+                      handleDeleteTask(activeProject._id, task);
+                    }
+                  }}
+                  className="pl-2 hover:cursor-pointer"
+                  src={deleteIcon}
+                  alt="delete"
+                />
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) {
-                    handleDeleteTask(activeProject._id, task);
-                  }
-                }}
-                className="pl-2 hover:cursor-pointer"
-                src={deleteIcon}
-                alt="delete"
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
       <div
@@ -194,31 +206,36 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "inProgress")
-          .map((task: Task, index) => (
-            <div
-              onDragStart={() => (draggedTask = task)}
-              draggable
-              key={index}
-              className="flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+        {isLoading ? (
+          <PulseLoader size={6} color="#ffffff" className="pt-3 pl-2" />
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "inProgress")
+            .map((task: Task, index) => (
               <div
-                id="toggle-panel"
-                onClick={() => handleClickedTask(task)}
-                className="inline-flex gap-3 hover:cursor-pointer">
-                <img src={editIcon} />
-                <p className="m-0 text-sm text-primary">{task.name}</p>
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                key={index}
+                className="flex justify-between mt-3 p-2 bg-[rgba(64,89,179,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+                <div
+                  id="toggle-panel"
+                  onClick={() => handleClickedTask(task)}
+                  className="inline-flex gap-3 hover:cursor-pointer">
+                  <img src={editIcon} />
+                  <p className="m-0 text-sm text-primary">{task.name}</p>
+                </div>
+                <img
+                  onClick={() => {
+                    if (activeProject)
+                      handleDeleteTask(activeProject._id, task);
+                  }}
+                  className="pl-2 hover:cursor-pointer"
+                  src={deleteIcon}
+                  alt="delete"
+                />
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) handleDeleteTask(activeProject._id, task);
-                }}
-                className="pl-2 hover:cursor-pointer"
-                src={deleteIcon}
-                alt="delete"
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
       <div
@@ -241,32 +258,37 @@ function Tasks({ queryTasks, activeProject }: Props) {
             Task
           </button>
         </div>
-        {displayTasks
-          .filter((task: Task) => task.status === "done")
-          .map((task: Task, index) => (
-            <div
-              onDragStart={() => (draggedTask = task)}
-              draggable
-              onClick={() => setOpenedTask(task)}
-              key={index}
-              className="flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+        {isLoading ? (
+          <PulseLoader size={6} color="#ffffff" className="pt-3 pl-2" />
+        ) : (
+          displayTasks
+            .filter((task: Task) => task.status === "done")
+            .map((task: Task, index) => (
               <div
-                id="toggle-panel"
-                onClick={() => handleClickedTask(task)}
-                className="inline-flex gap-3 hover:cursor-pointer">
-                <img src={editIcon} />
-                <p className="m-0 text-sm text-primary">{task.name}</p>
+                onDragStart={() => (draggedTask = task)}
+                draggable
+                onClick={() => setOpenedTask(task)}
+                key={index}
+                className="flex justify-between mt-3 p-2 bg-[rgba(33,79,21,0.3)] rounded-md transition-opacity duration-300 opacity-75 hover:opacity-100">
+                <div
+                  id="toggle-panel"
+                  onClick={() => handleClickedTask(task)}
+                  className="inline-flex gap-3 hover:cursor-pointer">
+                  <img src={editIcon} />
+                  <p className="m-0 text-sm text-primary">{task.name}</p>
+                </div>
+                <img
+                  onClick={() => {
+                    if (activeProject)
+                      handleDeleteTask(activeProject._id, task);
+                  }}
+                  className="pl-2 hover:cursor-pointer"
+                  src={deleteIcon}
+                  alt="delete"
+                />
               </div>
-              <img
-                onClick={() => {
-                  if (activeProject) handleDeleteTask(activeProject._id, task);
-                }}
-                className="pl-2 hover:cursor-pointer"
-                src={deleteIcon}
-                alt="delete"
-              />
-            </div>
-          ))}
+            ))
+        )}
       </div>
 
       <TaskPanel

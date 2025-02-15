@@ -32,29 +32,29 @@ function ActiveProject({
         const projectMenu = document.getElementById("project-menu");
         if (!projectMenu?.contains(target)) setShowProjectMenu(false);
       }}
-      className='flex flex-col items-start p-5'>
+      className="flex flex-col items-start p-5">
       <h1>{activeProject?.name}</h1>
-      <div className='w-full md:max-w-[1920px] border-b-2 border-background-secondary pb-2'>
-        <ul className='relative bottom-[1px] mt-8'>
-          <li className='float-end'>
+      <div className="w-full md:max-w-[1920px] border-b-2 border-background-secondary pb-2">
+        <ul className="relative bottom-[1px] mt-8">
+          <li className="float-end">
             {isLoading ? (
-              <div className='relative bottom-[2px]'>
-                <PulseLoader size={6} color='#ffffff' />
+              <div className="relative bottom-[2px]">
+                <PulseLoader size={6} color="#ffffff" />
               </div>
             ) : (
               <img
                 onClick={() => setShowProjectMenu(!showProjectMenu)}
-                className='relative bottom-[2px] cursor-pointer'
+                className="relative bottom-[2px] cursor-pointer"
                 src={dotsIcon}
-                alt='settings'
+                alt="settings"
               />
             )}
 
             {showProjectMenu && (
               <aside
-                id='project-menu'
-                className='absolute mt-2 p-5 min-w-[275px] right-0 rounded-md bg-background-secondary shadow-xl z-[999]'>
-                <div className='w-full inline-flex justify-between gap-2'>
+                id="project-menu"
+                className="absolute mt-2 p-5 min-w-[275px] right-0 rounded-md bg-background-secondary shadow-xl z-[999]">
+                <div className="w-full inline-flex justify-between gap-2">
                   <input
                     onChange={(event) => {
                       clearTimeout(renameTimer);
@@ -77,8 +77,8 @@ function ActiveProject({
                         }
                       }, 800);
                     }}
-                    className='w-full text-sm placeholder:text-primary bg-transparent hover:bg-background-accent transition-colors duration-300 focus:outline-none border border-secondary rounded-md p-2'
-                    type='text'
+                    className="w-full text-sm placeholder:text-primary bg-transparent hover:bg-background-accent transition-colors duration-300 focus:outline-none border border-secondary rounded-md p-2"
+                    type="text"
                     placeholder={activeProject?.name as string}
                     maxLength={16}
                   />
@@ -102,7 +102,7 @@ function ActiveProject({
                         }
                       );
                     }}
-                    className='mt-5 w-full text-sm bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105'>
+                    className="mt-5 w-full text-sm bg-transparent border border-secondary rounded-md p-2 font-medium shadow-lg transition-transform hover:scale-105">
                     {isLoading ? (
                       <span>Deleting project...</span>
                     ) : (
@@ -113,11 +113,11 @@ function ActiveProject({
               </aside>
             )}
           </li>
-          <li className='inline-flex md:float-end'>
+          <li className="inline-flex md:float-end">
             <img
-              className='cursor-pointer'
+              className="cursor-pointer"
               src={searchIcon}
-              alt='search tasks'
+              alt="search tasks"
             />
 
             <input
@@ -141,9 +141,9 @@ function ActiveProject({
                   }
                 }, 800);
               }}
-              className='w-32 pl-2 bg-transparent text-sm placeholder:text-sm focus:outline-none'
-              type='text'
-              placeholder='Search tasks...'
+              className="w-32 pl-2 bg-transparent text-sm placeholder:text-sm focus:outline-none"
+              type="text"
+              placeholder="Search tasks..."
             />
           </li>
         </ul>
